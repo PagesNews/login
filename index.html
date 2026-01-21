@@ -3,22 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Salud Felina | Panleucopenia</title>
-
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:Arial,sans-serif;
+  font-family:Arial, sans-serif;
   background:#f3f7f6;
+  margin:0;
   color:#2e3d38;
-  line-height:1.8;
 }
 header{
   background:#cfe7df;
-  padding:40px 20px;
+  padding:40px;
   text-align:center;
 }
 section{
-  max-width:1100px;
+  max-width:1000px;
   margin:auto;
   padding:40px 20px;
 }
@@ -29,32 +27,25 @@ section{
   margin-bottom:30px;
   box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:30px;
-  align-items:center;
-}
-img{width:100%;border-radius:15px}
-button,input{
+input,button{
   width:100%;
   padding:14px;
-  margin-top:12px;
+  margin-top:10px;
   border-radius:8px;
   border:1px solid #ccc;
 }
 button{
   background:#6bb9a7;
-  color:white;
+  color:#fff;
   border:none;
   cursor:pointer;
 }
 button:hover{background:#5aa393}
-.hidden{display:none}
 hr{margin:20px 0}
+.hidden{display:none}
+#msg{margin-top:10px;font-size:14px}
 </style>
 </head>
-
 <body>
 
 <header>
@@ -62,8 +53,8 @@ hr{margin:20px 0}
 <p>Información veterinaria responsable</p>
 </header>
 
-<!-- LOGIN -->
-<section class="card" id="loginSection" style="max-width:400px">
+<!-- LOGIN SIEMPRE PRIMERO -->
+<section class="card" id="loginBox" style="max-width:400px">
 <h2>Acceso</h2>
 
 <input id="email" type="email" placeholder="Correo">
@@ -76,50 +67,18 @@ hr{margin:20px 0}
 
 <button id="googleBtn">Continuar con Google</button>
 
-<p id="authMsg"></p>
+<p id="msg"></p>
 </section>
 
 <!-- CONTENIDO -->
 <section id="contenido" class="hidden">
-
-<div class="card grid">
-<div>
+<div class="card">
 <h2>¿Qué es la Panleucopenia Felina?</h2>
 <p>
-Es una enfermedad viral grave causada por el parvovirus felino.
-Afecta el sistema inmunológico y digestivo, especialmente en gatitos.
-</p>
-<p>
-Sin atención temprana, puede ser mortal.
+La panleucopenia felina es una enfermedad viral grave causada por el parvovirus felino.
+Afecta principalmente a gatitos y gatos no vacunados y puede ser mortal sin tratamiento.
 </p>
 </div>
-<img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5">
-</div>
-
-<div class="card grid">
-<img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba">
-<div>
-<h2>Síntomas</h2>
-<ul>
-<li>Fiebre</li>
-<li>Vómitos</li>
-<li>Diarrea</li>
-<li>Deshidratación</li>
-<li>Debilidad extrema</li>
-</ul>
-</div>
-</div>
-
-<div class="card grid">
-<div>
-<h2>Prevención</h2>
-<p>
-La vacunación temprana es la mejor protección.
-</p>
-</div>
-<img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987">
-</div>
-
 </section>
 
 <!-- FIREBASE -->
@@ -130,8 +89,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged
+  signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getFirestore,
@@ -139,8 +97,7 @@ import {
   addDoc,
   query,
   where,
-  getDocs,
-  serverTimestamp
+  getDocs
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -158,67 +115,60 @@ const db = getFirestore(app);
 
 const email = document.getElementById("email");
 const password = document.getElementById("password");
-const msg = document.getElementById("authMsg");
+const msg = document.getElementById("msg");
 
-// 🔍 Verificar si correo existe en Firestore
 async function correoExiste(correo){
   const q = query(collection(db,"registros"), where("email","==",correo));
   const snap = await getDocs(q);
   return !snap.empty;
 }
 
-// REGISTRO
-registerBtn.onclick = async () => {
-  if (await correoExiste(email.value)) {
-    msg.textContent = "⚠️ Correo ya registrado, inicia sesión";
+// REGISTRAR
+document.getElementById("registerBtn").onclick = async () => {
+  msg.textContent="";
+  if(await correoExiste(email.value)){
+    msg.textContent="Correo ya registrado, inicia sesión";
     return;
   }
   try{
     await createUserWithEmailAndPassword(auth,email.value,password.value);
-    await addDoc(collection(db,"registros"),{
-      email: email.value,
-      fecha: serverTimestamp()
-    });
-    msg.textContent = "✅ Correo registrado correctamente";
+    await addDoc(collection(db,"registros"),{email:email.value});
+    msg.textContent="Correo registrado correctamente";
   }catch(e){
-    msg.textContent = e.message;
+    msg.textContent=e.message;
   }
 };
 
 // LOGIN
-loginBtn.onclick = async () => {
-  if (!await correoExiste(email.value)) {
-    msg.textContent = "❌ Correo no registrado, regístrate primero";
+document.getElementById("loginBtn").onclick = async () => {
+  msg.textContent="";
+  if(!await correoExiste(email.value)){
+    msg.textContent="Correo no registrado, regístrate primero";
     return;
   }
   try{
     await signInWithEmailAndPassword(auth,email.value,password.value);
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("contenido").classList.remove("hidden");
   }catch(e){
-    msg.textContent = e.message;
+    msg.textContent="Contraseña incorrecta";
   }
 };
 
 // GOOGLE
-googleBtn.onclick = async () => {
+document.getElementById("googleBtn").onclick = async () => {
   const provider = new GoogleAuthProvider();
-  const result = await signInWithPopup(auth,provider);
-  if (!await correoExiste(result.user.email)){
-    await addDoc(collection(db,"registros"),{
-      email: result.user.email,
-      fecha: serverTimestamp(),
-      google:true
-    });
+  try{
+    const res = await signInWithPopup(auth,provider);
+    if(!await correoExiste(res.user.email)){
+      await addDoc(collection(db,"registros"),{email:res.user.email});
+    }
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("contenido").classList.remove("hidden");
+  }catch(e){
+    msg.textContent=e.message;
   }
 };
-
-// SESIÓN
-onAuthStateChanged(auth,user=>{
-  if(user){
-    loginSection.style.display="none";
-    contenido.classList.remove("hidden");
-  }
-});
 </script>
-
 </body>
 </html>
