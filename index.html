@@ -227,8 +227,37 @@ small{
 </div>
 
 </section>
-<!-- =========================
+
+ <!-- =======================
+     FIREBASE 8.1
+========================= -->
+     
+     
+     <section id="auth" style="max-width:400px;margin:60px auto;text-align:center;">
+  <h2>Acceso a la campaña 🐱</h2>
+  <p>Inicia sesión para acceder a información detallada</p>
+
+  <input id="authEmail" type="email" placeholder="Correo electrónico" required />
+  <input id="authPassword" type="password" placeholder="Contraseña" required />
+
+  <button id="loginBtn">Iniciar sesión</button>
+  <button id="registerBtn">Registrarme</button>
+
+  <hr style="margin:20px 0;">
+
+  <button id="googleBtn">Continuar con Google</button>
+
+  <p id="authMsg"></p>
+</section>
+
+     
+     
+     
+     
+     
+     <!-- =========================
      FIREBASE 6.1
+
 ========================= -->
 <section id="registro">
   <h2>Únete a la campaña de salud felina 🐾</h2>
@@ -390,10 +419,78 @@ document.addEventListener("keydown", e=>{
   const db = getFirestore(app);
 
   console.log("🔥 Firebase conectado correctamente");
+
+-----------------------
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+// ELEMENTOS
+const authEmail = document.getElementById("authEmail");
+const authPassword = document.getElementById("authPassword");
+const authMsg = document.getElementById("authMsg");
+
+document.getElementById("registerBtn").onclick = async () => {
+  try {
+    await createUserWithEmailAndPassword(
+      auth,
+      authEmail.value,
+      authPassword.value
+    );
+    authMsg.textContent = "✅ Usuario registrado correctamente";
+    authMsg.style.color = "green";
+  } catch (error) {
+    authMsg.textContent = error.message;
+    authMsg.style.color = "red";
+  }
+};
+
+document.getElementById("loginBtn").onclick = async () => {
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      authEmail.value,
+      authPassword.value
+    );
+    authMsg.textContent = "✅ Sesión iniciada";
+    authMsg.style.color = "green";
+  } catch (error) {
+    authMsg.textContent = error.message;
+    authMsg.style.color = "red";
+  }
+};
+
+document.getElementById("googleBtn").onclick = async () => {
+  try {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+    authMsg.textContent = "✅ Sesión con Google iniciada";
+    authMsg.style.color = "green";
+  } catch (error) {
+    authMsg.textContent = error.message;
+    authMsg.style.color = "red";
+  }
+};
+
+// DETECTAR SESIÓN
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    console.log("Usuario logueado:", user.email);
+  } else {
+    console.log("No hay sesión activa");
+  }
+});
+
+
 </script>
 
 </body>
 </html>
+
 
 
 
