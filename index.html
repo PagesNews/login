@@ -2,61 +2,73 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Panleucopenia Felina | Prevención y Amor</title>
 
+<!-- ======================================================
+     TÍTULO DEL DOCUMENTO
+====================================================== -->
+<title>Panleucopenia Felina | Información y Prevención</title>
+
+<!-- ======================================================
+     ESTILOS GENERALES
+====================================================== -->
 <style>
-/* ==================== ESTILO BASE ==================== */
-body{
+
+/* ------------------ RESET BÁSICO ------------------ */
+*{
+  box-sizing:border-box;
   margin:0;
+  padding:0;
+}
+
+/* ------------------ CUERPO ------------------ */
+body{
   font-family: "Segoe UI", Arial, sans-serif;
-  background:#f4f7f6;
+  background-color:#f4f7f6;
   color:#333;
 }
 
+/* ------------------ TEXTOS ------------------ */
 h1,h2,h3{
   color:#3f6f63;
+  margin-bottom:15px;
 }
 
 p{
-  line-height:1.7;
   font-size:16px;
+  line-height:1.7;
+  margin-bottom:15px;
 }
 
-/* ==================== HEADER ==================== */
+/* ------------------ HEADER ------------------ */
 header{
   background:linear-gradient(135deg,#cfe8df,#e6f3ee);
   padding:70px 20px;
   text-align:center;
 }
 
-header h1{
-  font-size:38px;
-  margin-bottom:15px;
-}
-
 header p{
-  max-width:800px;
+  max-width:900px;
   margin:auto;
   font-size:18px;
 }
 
-/* ==================== CONTENEDOR ==================== */
-section{
-  max-width:1100px;
+/* ------------------ CONTENEDOR ------------------ */
+main{
+  max-width:1200px;
   margin:auto;
   padding:40px 20px;
 }
 
-/* ==================== CARDS ==================== */
+/* ------------------ TARJETAS ------------------ */
 .card{
-  background:white;
-  border-radius:16px;
-  padding:35px;
-  margin-bottom:40px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  background:#ffffff;
+  border-radius:18px;
+  padding:40px;
+  margin-bottom:45px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
-/* ==================== GRID ==================== */
+/* ------------------ GRID ------------------ */
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -65,12 +77,13 @@ section{
 
 .grid img{
   width:100%;
-  border-radius:14px;
+  height:100%;
+  max-height:380px;
   object-fit:cover;
-  max-height:350px;
+  border-radius:14px;
 }
 
-/* ==================== LISTAS ==================== */
+/* ------------------ LISTAS ------------------ */
 ul{
   padding-left:20px;
 }
@@ -79,28 +92,28 @@ li{
   margin-bottom:10px;
 }
 
-/* ==================== FORM ==================== */
+/* ------------------ FORMULARIO ------------------ */
 form{
-  max-width:450px;
-  display:flex;
-  flex-direction:column;
-  gap:15px;
+  max-width:500px;
 }
 
 input{
-  padding:14px;
+  width:100%;
+  padding:15px;
+  margin-bottom:15px;
   border-radius:10px;
   border:1px solid #ccc;
   font-size:16px;
 }
 
 button{
-  padding:14px;
+  width:100%;
+  padding:15px;
   background:#6bb9a7;
   border:none;
   border-radius:10px;
-  font-size:16px;
   color:white;
+  font-size:16px;
   cursor:pointer;
 }
 
@@ -108,170 +121,225 @@ button:hover{
   background:#5aa393;
 }
 
-.success{color:#2e7d32;font-weight:bold;}
-.error{color:#c62828;font-weight:bold;}
+/* ------------------ MENSAJES ------------------ */
+.success{
+  color:#2e7d32;
+  font-weight:bold;
+}
 
-/* ==================== CHAT ==================== */
-.chat-box{
+.error{
+  color:#c62828;
+  font-weight:bold;
+}
+
+/* ------------------ CHAT ------------------ */
+.chat-container{
   border:1px solid #ddd;
-  border-radius:12px;
-  padding:15px;
-  max-height:300px;
-  overflow-y:auto;
+  border-radius:14px;
+  padding:20px;
   background:#fafafa;
 }
 
-.chat-msg{
+.chat-log{
+  max-height:300px;
+  overflow-y:auto;
+  margin-bottom:15px;
+}
+
+.chat-line{
   margin-bottom:10px;
 }
 
-.user{font-weight:bold;}
-.bot{color:#3f6f63;}
-
-/* ==================== FOOTER ==================== */
+/* ------------------ FOOTER ------------------ */
 footer{
   background:#dcefe8;
+  padding:30px;
   text-align:center;
-  padding:25px;
   font-size:14px;
 }
+
 </style>
 </head>
 
 <body>
 
+<!-- ======================================================
+     ENCABEZADO
+====================================================== -->
 <header>
-<h1>Panleucopenia Felina 🐱</h1>
-<p>
-La información salva vidas. Esta página fue creada con empatía,
-responsabilidad y amor por los gatos. Si compartes tu vida con uno,
-esto te importa.
-</p>
+  <h1>Panleucopenia Felina 🐱</h1>
+  <p>
+    Esta página fue creada con un propósito claro: informar,
+    prevenir y salvar vidas felinas a través del conocimiento.
+  </p>
 </header>
 
-<section>
+<!-- ======================================================
+     CONTENIDO PRINCIPAL
+====================================================== -->
+<main>
 
-<!-- ==================== QUÉ ES ==================== -->
+<!-- =================== SECCIÓN 1 =================== -->
 <div class="card grid">
   <div>
-    <h2>¿Qué es la Panleucopenia?</h2>
+    <h2>¿Qué es esta enfermedad?</h2>
     <p>
-      Es una enfermedad viral grave y altamente contagiosa que afecta
-      principalmente a gatitos y gatos no vacunados. Ataca el sistema
-      inmunológico y el tracto digestivo.
+      La panleucopenia felina es una enfermedad viral altamente
+      contagiosa que afecta principalmente a gatitos y gatos
+      sin vacunación.
     </p>
     <p>
-      El virus es resistente y puede sobrevivir meses en el ambiente,
-      incluso en casas limpias.
-    </p>
-  </div>
-  <img src="https://images.unsplash.com/photo-1601758123927-196bc5b6a7b8?auto=format&fit=crop&w=900&q=80">
-</div>
-
-<!-- ==================== SÍNTOMAS ==================== -->
-<div class="card grid">
-  <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=900&q=80">
-  <div>
-    <h2>Síntomas frecuentes</h2>
-    <ul>
-      <li>❗ Fiebre alta</li>
-      <li>❗ Vómitos persistentes</li>
-      <li>❗ Diarrea severa (a veces con sangre)</li>
-      <li>❗ Falta de apetito</li>
-      <li>❗ Decaimiento extremo</li>
-    </ul>
-    <p>
-      Ante cualquiera de estos signos, **el tiempo es vital**.
-    </p>
-  </div>
-</div>
-
-<!-- ==================== PREVENCIÓN ==================== -->
-<div class="card grid">
-  <div>
-    <h2>Prevención y cuidado</h2>
-    <p>
-      La vacunación es la herramienta más efectiva. Un gato vacunado
-      tiene muchas más probabilidades de sobrevivir.
-    </p>
-    <p>
-      Mantener esquemas de vacunación al día no es un gasto, es una
-      inversión en vida.
+      Ataca el sistema inmunológico y digestivo, debilitando al
+      animal rápidamente.
     </p>
   </div>
   <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=900&q=80">
 </div>
 
-<!-- ==================== REGISTRO ==================== -->
-<div class="card">
-<h2>Campañas de vacunación gratuita</h2>
-<p>
-Si dejas tu correo, podremos avisarte sobre jornadas gratuitas
-y material educativo. No enviamos spam.
-</p>
-
-<form id="emailForm">
-  <input type="email" id="emailInput" placeholder="tu_correo@gmail.com" required>
-  <button>Quiero proteger a mi gato</button>
-</form>
-<p id="msg"></p>
+<!-- =================== SECCIÓN 2 =================== -->
+<div class="card grid">
+  <img src="https://images.unsplash.com/photo-1592194996308-7b43878e84a6?auto=format&fit=crop&w=900&q=80">
+  <div>
+    <h2>Síntomas comunes</h2>
+    <ul>
+      <li>Fiebre elevada</li>
+      <li>Diarrea severa</li>
+      <li>Vómitos persistentes</li>
+      <li>Deshidratación</li>
+      <li>Decaimiento extremo</li>
+    </ul>
+  </div>
 </div>
 
-<!-- ==================== CHAT ==================== -->
+<!-- =================== REGISTRO =================== -->
 <div class="card">
-<h2>Asistente informativo 🧠</h2>
-<p>
-Haz cualquier pregunta sobre la panleucopenia. Este asistente está
-entrenado con información veterinaria básica.
-</p>
+  <h2>Registro para campañas de vacunación</h2>
+  <p>
+    Déjanos tu correo para avisarte cuando haya campañas
+    gratuitas cerca de ti.
+  </p>
 
-<div class="chat-box" id="chat"></div>
-<input id="question" placeholder="Escribe tu pregunta y presiona Enter">
+  <form id="formCorreo">
+    <input type="email" id="correo" placeholder="correo@gmail.com">
+    <button type="submit">Registrar correo</button>
+  </form>
+
+  <p id="mensaje"></p>
 </div>
 
-</section>
+<!-- =================== ASISTENTE =================== -->
+<div class="card">
+  <h2>Asistente informativo</h2>
 
+  <div class="chat-container">
+    <div class="chat-log" id="chatLog"></div>
+    <input id="pregunta" placeholder="Escribe tu pregunta y presiona Enter">
+  </div>
+</div>
+
+</main>
+
+<!-- ======================================================
+     PIE DE PÁGINA
+====================================================== -->
 <footer>
-Hecho con amor, conciencia y responsabilidad 🐾
+  Proyecto educativo sin fines de lucro 🐾
 </footer>
 
+<!-- ======================================================
+     JAVASCRIPT (LARGO A PROPÓSITO)
+====================================================== -->
 <script>
-/* ==================== EMAIL ==================== */
-function validarEmail(e){
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+
+/* ======================================================
+   BLOQUE 1: UTILIDADES
+====================================================== */
+function validarFormatoCorreo(correo){
+  const expresion=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return expresion.test(correo);
 }
 
-document.getElementById("emailForm").onsubmit=e=>{
-  e.preventDefault();
-  const email=emailInput.value.trim();
-  const msg=document.getElementById("msg");
-  if(!validarEmail(email)){
-    msg.textContent="Correo inválido.";
-    msg.className="error";
-    return;
+/* ======================================================
+   BLOQUE 2: ALMACENAMIENTO
+====================================================== */
+function obtenerCorreosGuardados(){
+  let datos=localStorage.getItem("listaCorreos");
+  if(datos===null){
+    return [];
   }
-  let data=JSON.parse(localStorage.getItem("correos")||"[]");
-  if(data.includes(email)){
-    msg.textContent="Este correo ya está registrado.";
-    msg.className="error";
-    return;
-  }
-  data.push(email);
-  localStorage.setItem("correos",JSON.stringify(data));
-  msg.textContent="Registro exitoso. Gracias por cuidar a los gatitos.";
-  msg.className="success";
-  emailInput.value="";
-};
+  return JSON.parse(datos);
+}
 
-/* ==================== ASISTENTE ==================== */
-const respuestas=[
-{key:"sintoma",res:"Los síntomas incluyen vómitos, diarrea, fiebre y decaimiento extremo."},
-{key:"cura",res:"No existe cura directa, pero con atención veterinaria temprana se puede salvar."},
-{key:"vacuna",res:"La vacunación es la mejor forma de prevención y debe iniciarse desde cachorros."},
-{key:"contagia",res:"Se contagia por contacto con heces, objetos o superficies contaminadas."},
-{key:"riesgo",res:"Los gatitos y gatos no vacunados son los más vulnerables."}
+function guardarCorreoEnStorage(correo){
+  let lista=obtenerCorreosGuardados();
+  lista.push({
+    email:correo,
+    fecha:new Date().toLocaleString()
+  });
+  localStorage.setItem("listaCorreos",JSON.stringify(lista));
+}
+
+/* ======================================================
+   BLOQUE 3: FORMULARIO
+====================================================== */
+document.getElementById("formCorreo").addEventListener("submit",function(e){
+  e.preventDefault();
+
+  let correo=document.getElementById("correo").value.trim();
+  let mensaje=document.getElementById("mensaje");
+
+  if(!validarFormatoCorreo(correo)){
+    mensaje.textContent="Correo inválido.";
+    mensaje.className="error";
+    return;
+  }
+
+  let existentes=obtenerCorreosGuardados();
+  let repetido=existentes.some(x=>x.email===correo);
+
+  if(repetido){
+    mensaje.textContent="Este correo ya está registrado.";
+    mensaje.className="error";
+    return;
+  }
+
+  guardarCorreoEnStorage(correo);
+  mensaje.textContent="Correo registrado correctamente.";
+  mensaje.className="success";
+  document.getElementById("correo").value="";
+});
+
+/* ======================================================
+   BLOQUE 4: ASISTENTE SIMULADO
+====================================================== */
+const baseConocimiento=[
+  {palabra:"sintoma",respuesta:"Los síntomas incluyen vómitos, diarrea y fiebre."},
+  {palabra:"vacuna",respuesta:"La vacunación es la mejor forma de prevención."},
+  {palabra:"cura",respuesta:"No existe cura directa, pero sí tratamiento de soporte."},
+  {palabra:"contagio",respuesta:"Se contagia por superficies y contacto indirecto."}
 ];
 
-const chat=document.getElementById("chat");
-document.getElementById("question").addEventListener("keydown",e=>{
-  if(e.key==="Ent
+document.getElementById("pregunta").addEventListener("keydown",function(e){
+  if(e.key==="Enter"){
+    let texto=e.target.value.toLowerCase();
+    let chat=document.getElementById("chatLog");
+
+    chat.innerHTML+=`<div class="chat-line"><b>Tú:</b> ${texto}</div>`;
+
+    let respuesta="Consulta siempre a tu veterinario.";
+    baseConocimiento.forEach(item=>{
+      if(texto.includes(item.palabra)){
+        respuesta=item.respuesta;
+      }
+    });
+
+    chat.innerHTML+=`<div class="chat-line"><b>Asistente:</b> ${respuesta}</div>`;
+    chat.scrollTop=chat.scrollHeight;
+    e.target.value="";
+  }
+});
+
+</script>
+
+</body>
+</html>
