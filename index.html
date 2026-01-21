@@ -5,79 +5,45 @@
 <title>Salud Felina | Panleucopenia</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
 body{
   font-family: Arial, sans-serif;
   background:#f3f7f6;
   color:#2e3d38;
-  line-height:1.8;
+  margin:0;
 }
-
 header{
   background:#cfe7df;
-  padding:50px 20px;
+  padding:40px;
   text-align:center;
 }
-
 section{
   max-width:1100px;
   margin:auto;
   padding:40px 20px;
 }
-
 .card{
-  background:white;
-  padding:35px;
-  border-radius:18px;
-  margin-bottom:40px;
+  background:#fff;
+  padding:30px;
+  border-radius:16px;
   box-shadow:0 10px 25px rgba(0,0,0,.08);
+  margin-bottom:40px;
 }
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:30px;
-  align-items:center;
-}
-
-img{
-  width:100%;
-  border-radius:15px;
-}
-
-h2{
-  color:#4a7c6a;
-  margin-bottom:15px;
-}
-
-button,input{
+input,button{
   width:100%;
   padding:14px;
   margin-top:12px;
   border-radius:8px;
   border:1px solid #ccc;
-  font-size:16px;
 }
-
 button{
   background:#6bb9a7;
   color:white;
   border:none;
   cursor:pointer;
 }
-
-button:hover{
-  background:#5aa393;
-}
-
-.hidden{
-  display:none;
-}
+button:hover{background:#5aa393}
+hr{margin:20px 0}
+.hidden{display:none}
 </style>
 </head>
 
@@ -85,18 +51,12 @@ button:hover{
 
 <header>
 <h1>Panleucopenia Felina 🐾</h1>
-<p>Información veterinaria clara y responsable para proteger la vida de los gatos</p>
+<p>Información veterinaria seria y prevención responsable</p>
 </header>
 
-<!-- ================= LOGIN ================= -->
-<section id="loginSection" class="card" style="max-width:420px">
-
-<h2>Acceso a la información completa</h2>
-
-<p>
-Para acceder a la información detallada sobre síntomas, prevención,
-tratamientos y recomendaciones veterinarias, debes iniciar sesión.
-</p>
+<!-- LOGIN SIEMPRE VISIBLE -->
+<section class="card" style="max-width:420px">
+<h2>Acceso</h2>
 
 <input id="email" type="email" placeholder="Correo electrónico">
 <input id="password" type="password" placeholder="Contraseña">
@@ -104,92 +64,40 @@ tratamientos y recomendaciones veterinarias, debes iniciar sesión.
 <button id="registerBtn">Registrarme</button>
 <button id="loginBtn">Iniciar sesión</button>
 
-<div style="margin:20px 0; display:flex; align-items:center;">
-  <hr style="flex:1">
-  <span style="margin:0 10px; color:#777">o</span>
-  <hr style="flex:1">
-</div>
+<hr>
 
 <button id="googleBtn">Continuar con Google</button>
 
 <p id="authMsg"></p>
-
 </section>
 
-<!-- ================= CONTENIDO ================= -->
+<!-- CONTENIDO -->
 <section id="contenido" class="hidden">
 
-<div class="card grid">
-<div>
+<div class="card">
 <h2>¿Qué es la Panleucopenia Felina?</h2>
 <p>
-La panleucopenia felina es una enfermedad viral grave causada por el parvovirus felino.
-Afecta principalmente a gatitos y gatos no vacunados, atacando el sistema inmunológico,
-el tracto digestivo y la médula ósea.
+La panleucopenia felina es una enfermedad viral extremadamente grave causada por
+el parvovirus felino. Afecta principalmente a gatitos y gatos no vacunados,
+provocando una caída drástica de glóbulos blancos.
 </p>
 <p>
-Es una de las enfermedades más peligrosas en medicina veterinaria felina debido a
-su alta tasa de mortalidad cuando no se detecta a tiempo.
-</p>
-<p>
-El virus es extremadamente resistente en el ambiente y puede sobrevivir durante
-meses en superficies contaminadas.
+Su mortalidad puede ser alta si no se detecta a tiempo.
 </p>
 </div>
 
-<img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80">
-
-</div>
-
-<div class="card grid">
-
-<img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=80">
-
-<div>
-<h2>Síntomas clínicos</h2>
+<div class="card">
+<h2>Prevención</h2>
 <p>
-Los síntomas suelen aparecer de forma repentina y pueden empeorar rápidamente:
+La vacunación temprana y completa es la única forma efectiva de prevención.
+Mantener ambientes desinfectados y evitar el contacto con gatos infectados
+reduce drásticamente el riesgo.
 </p>
-<ul>
-<li>Fiebre alta o temperatura corporal anormalmente baja</li>
-<li>Vómitos persistentes</li>
-<li>Diarrea severa</li>
-<li>Deshidratación extrema</li>
-<li>Letargo, debilidad y aislamiento</li>
-<li>Pérdida total del apetito</li>
-</ul>
-<p>
-Ante cualquiera de estos signos, es fundamental acudir de inmediato al veterinario.
-</p>
-</div>
-
-</div>
-
-<div class="card grid">
-
-<div>
-<h2>Prevención y vacunación</h2>
-<p>
-La vacunación es la herramienta más efectiva para prevenir la panleucopenia felina.
-Un esquema de vacunación adecuado desde las primeras semanas de vida puede
-prevenir completamente la enfermedad.
-</p>
-<p>
-Además, es importante mantener una correcta higiene del entorno,
-desinfectar superficies y evitar el contacto con gatos infectados.
-</p>
-<p>
-La educación de los cuidadores es clave para reducir la propagación del virus.
-</p>
-</div>
-
-<img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=900&q=80">
-
 </div>
 
 </section>
 
-<!-- ================= FIREBASE ================= -->
+<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
@@ -197,7 +105,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 import {
@@ -207,6 +116,7 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+// CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyCdACTc1qQAFWDbkxnBnW58opthZgNytAs",
   authDomain: "login07540.firebaseapp.com",
@@ -216,17 +126,18 @@ const firebaseConfig = {
   appId: "1:729426958528:web:a2cc1a3aba1997e11f3525"
 };
 
+// INIT
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// ELEMENTOS
 const email = document.getElementById("email");
 const password = document.getElementById("password");
-const authMsg = document.getElementById("authMsg");
+const msg = document.getElementById("authMsg");
 const contenido = document.getElementById("contenido");
-const loginSection = document.getElementById("loginSection");
 
-/* REGISTRO */
+// REGISTRO + FIRESTORE
 registerBtn.onclick = async () => {
   try {
     const cred = await createUserWithEmailAndPassword(
@@ -235,46 +146,53 @@ registerBtn.onclick = async () => {
       password.value
     );
 
+    // 👉 GUARDAR EN DATABASE
     await setDoc(doc(db, "usuarios", cred.user.uid), {
       email: cred.user.email,
-      proveedor: "password",
-      fechaRegistro: serverTimestamp()
+      fechaRegistro: serverTimestamp(),
+      proveedor: "email"
     });
 
-    authMsg.textContent = "Registro exitoso. Ahora inicia sesión.";
+    msg.textContent = "✅ Usuario registrado y guardado en la base de datos";
+    contenido.classList.remove("hidden");
+
   } catch (e) {
-    authMsg.textContent = e.message;
+    msg.textContent = e.message;
   }
 };
 
-/* LOGIN */
+// LOGIN
 loginBtn.onclick = async () => {
   try {
-    await signInWithEmailAndPassword(
-      auth,
-      email.value,
-      password.value
-    );
-
-    loginSection.classList.add("hidden");
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+    msg.textContent = "✅ Sesión iniciada";
     contenido.classList.remove("hidden");
   } catch (e) {
-    authMsg.textContent = e.message;
+    msg.textContent = e.message;
   }
 };
 
-/* GOOGLE */
+// GOOGLE
 googleBtn.onclick = async () => {
-  try {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+  const provider = new GoogleAuthProvider();
+  const res = await signInWithPopup(auth, provider);
 
-    loginSection.classList.add("hidden");
-    contenido.classList.remove("hidden");
-  } catch (e) {
-    authMsg.textContent = e.message;
-  }
+  // GUARDAR GOOGLE
+  await setDoc(doc(db, "usuarios", res.user.uid), {
+    email: res.user.email,
+    fechaRegistro: serverTimestamp(),
+    proveedor: "google"
+  });
+
+  contenido.classList.remove("hidden");
 };
+
+// SESIÓN
+onAuthStateChanged(auth, user => {
+  if (user) {
+    contenido.classList.remove("hidden");
+  }
+});
 </script>
 
 </body>
