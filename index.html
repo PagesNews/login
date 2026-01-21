@@ -4,55 +4,78 @@
 <meta charset="UTF-8">
 <title>Salud Felina | Panleucopenia</title>
 
-<!-- ================== ESTILOS ================== -->
+<!-- =========================
+     ESTILOS GENERALES
+========================= -->
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
 body{
   font-family: "Segoe UI", Arial, sans-serif;
-  background:#f6f9f8;
-  color:#2f3e3a;
-  cursor: url("https://cur.cursors-4u.net/animals/ani-12/ani1135.cur"), auto;
+  background:#f3f7f6;
+  color:#2e3d38;
+  line-height:1.8;
+
+  /* 🐾 PATITA FUNCIONAL */
+  cursor: url("https://cdn-icons-png.flaticon.com/32/616/616430.png") 16 16, auto;
 }
 
 header{
   background:#cfe7df;
-  padding:60px 20px;
+  padding:70px 20px;
   text-align:center;
 }
 
-header h1{font-size:2.6em}
-header p{margin-top:10px;font-size:1.1em}
+header h1{
+  font-size:2.8em;
+  margin-bottom:10px;
+}
+
+header p{
+  font-size:1.2em;
+}
 
 section{
-  max-width:1100px;
+  max-width:1200px;
   margin:auto;
-  padding:40px 20px;
+  padding:50px 20px;
 }
 
 .card{
-  background:#ffffff;
-  border-radius:18px;
-  padding:30px;
-  margin-bottom:40px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+  background:white;
+  padding:35px;
+  border-radius:20px;
+  margin-bottom:50px;
+  box-shadow:0 15px 30px rgba(0,0,0,0.08);
 }
 
 .grid{
   display:grid;
-  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-  gap:30px;
+  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  gap:35px;
+  align-items:center;
 }
 
 img{
   width:100%;
-  border-radius:15px;
+  border-radius:18px;
+  object-fit:cover;
 }
 
-h2{margin-bottom:15px;color:#4a7c6a}
-p{line-height:1.7}
+h2{
+  color:#4a7c6a;
+  margin-bottom:15px;
+}
 
-input,button{
+ul{
+  margin-left:20px;
+}
+
+button, input{
   width:100%;
   padding:14px;
   margin-top:12px;
@@ -68,130 +91,207 @@ button{
   cursor:pointer;
 }
 
-button:hover{background:#5aa393}
+button:hover{
+  background:#5aa393;
+}
 
 .chat{
-  background:#f1f5f4;
+  background:#eef4f2;
   padding:15px;
   border-radius:10px;
-  max-height:250px;
+  max-height:260px;
   overflow-y:auto;
   margin-bottom:10px;
 }
 
-.msg-user{font-weight:bold}
-.msg-bot{margin-bottom:10px}
+.admin{
+  display:none;
+  background:#fff5f5;
+  border:2px dashed #c77;
+}
 
-small{color:#666}
+small{
+  color:#555;
+}
 </style>
 </head>
 
 <body>
 
+<!-- =========================
+     CABECERA
+========================= -->
 <header>
-<h1>Panleucopenia Felina 🐱</h1>
-<p>Información clara, prevención responsable y amor por los gatos</p>
+<h1>Panleucopenia Felina 🐾</h1>
+<p>Información real, prevención responsable y amor por los gatos</p>
 </header>
 
 <section>
 
-<!-- ================== INTRO ================== -->
+<!-- =========================
+     INTRODUCCIÓN
+========================= -->
 <div class="card grid">
   <div>
-    <h2>¿Qué es la Panleucopenia?</h2>
+    <h2>¿Qué es la Panleucopenia Felina?</h2>
     <p>
-      Es una enfermedad viral **grave y altamente contagiosa** que afecta principalmente
-      a gatos jóvenes. Ataca el sistema inmunológico y digestivo, provocando deshidratación,
-      infecciones secundarias y, en muchos casos, la muerte si no se actúa a tiempo.
+      La panleucopenia felina es una enfermedad viral **grave, altamente contagiosa**
+      y potencialmente mortal. Afecta principalmente a gatitos y gatos no vacunados,
+      atacando su sistema inmunológico y digestivo.
+    </p>
+    <p>
+      Sin tratamiento oportuno, la deshidratación y las infecciones secundarias
+      pueden avanzar rápidamente. La buena noticia es que **la prevención salva vidas**.
     </p>
   </div>
-  <img src="https://images.unsplash.com/photo-1595433707802-4f24a8c83fbb" alt="Gato veterinaria">
+  <!-- IMAGEN 1 (VERIFICADA) -->
+  <img src="https://images.unsplash.com/photo-1601758123927-1963e8bcd6e6?auto=format&fit=crop&w=900&q=80" alt="Gato veterinaria">
 </div>
 
-<!-- ================== SÍNTOMAS ================== -->
+<!-- =========================
+     SÍNTOMAS
+========================= -->
 <div class="card grid">
-  <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131" alt="Gato enfermo">
+  <!-- IMAGEN 2 (VERIFICADA) -->
+  <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=80" alt="Gato enfermo">
   <div>
-    <h2>Síntomas frecuentes</h2>
+    <h2>Síntomas más comunes</h2>
     <ul>
-      <li>✔ Falta de apetito</li>
-      <li>✔ Vómitos y diarrea severa</li>
-      <li>✔ Fiebre o hipotermia</li>
+      <li>✔ Falta total de apetito</li>
+      <li>✔ Vómitos persistentes</li>
+      <li>✔ Diarrea severa (a veces con sangre)</li>
+      <li>✔ Fiebre alta o hipotermia</li>
       <li>✔ Letargo extremo</li>
       <li>✔ Deshidratación rápida</li>
     </ul>
-    <p><strong>Ante cualquier síntoma, acude de inmediato al veterinario.</strong></p>
+    <p><strong>⚠️ Ante cualquier síntoma, acude de inmediato al veterinario.</strong></p>
   </div>
 </div>
 
-<!-- ================== PREVENCIÓN ================== -->
-<div class="card">
-  <h2>Prevención y esperanza</h2>
-  <p>
-    La **vacunación oportuna salva vidas**. Muchos gatos sobreviven cuando reciben atención
-    temprana y cuidados adecuados. Nuestra misión es informar y facilitar campañas de
-    vacunación gratuita.
-  </p>
+<!-- =========================
+     PREVENCIÓN
+========================= -->
+<div class="card grid">
+  <div>
+    <h2>Prevención y vacunación</h2>
+    <p>
+      La vacunación es la herramienta más efectiva contra la panleucopenia.
+      Un esquema de vacunación adecuado desde temprana edad puede evitar
+      completamente la enfermedad.
+    </p>
+    <p>
+      También es importante la desinfección del entorno, el aislamiento de gatos
+      enfermos y la educación de los cuidadores.
+    </p>
+  </div>
+  <!-- IMAGEN 3 (VERIFICADA) -->
+  <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=900&q=80" alt="Gato sano">
 </div>
 
-<!-- ================== REGISTRO ================== -->
+<!-- =========================
+     REGISTRO
+========================= -->
 <div class="card">
   <h2>Registro para campañas de vacunación</h2>
-  <p>Déjanos tu correo. Solo lo usaremos para avisarte sobre jornadas gratuitas.</p>
+  <p>
+    Si te registras, podremos avisarte sobre campañas gratuitas
+    y jornadas veterinarias en tu zona.
+  </p>
 
   <input id="email" placeholder="correo@email.com">
   <button onclick="registrarCorreo()">Registrar correo</button>
   <p id="estado"></p>
-
-  <small>Correos registrados:</small>
-  <ul id="lista"></ul>
 </div>
 
-<!-- ================== ASISTENTE ================== -->
+<!-- =========================
+     ASISTENTE
+========================= -->
 <div class="card">
-  <h2>Asistente informativo 🐾</h2>
+  <h2>Asistente informativo 🐱</h2>
+  <p>Haz preguntas comunes sobre la enfermedad.</p>
+
   <div class="chat" id="chat"></div>
-  <input id="pregunta" placeholder="Ej: ¿Es mortal? ¿Tiene cura?">
+  <input id="pregunta" placeholder="Ej: ¿Es mortal? ¿Se contagia a humanos?">
   <button onclick="preguntar()">Preguntar</button>
+</div>
+
+<!-- =========================
+     PANEL ADMIN (CTRL + A)
+========================= -->
+<div class="card admin" id="adminPanel">
+  <h2>Panel de administrador</h2>
+  <p>Correos registrados:</p>
+  <ul id="listaCorreos"></ul>
+  <small>Acceso mediante CTRL + A</small>
 </div>
 
 </section>
 
-<!-- ================== SCRIPT ================== -->
+<!-- =========================
+     SCRIPT
+========================= -->
 <script>
+const correos = [];
+
 const respuestas = {
-  "mortal": "Puede ser mortal, especialmente en gatitos sin vacunar. La atención temprana mejora mucho el pronóstico.",
-  "vacuna": "La vacuna es la mejor protección y debe aplicarse desde temprana edad.",
-  "cura": "No existe una cura específica, pero el tratamiento de soporte puede salvar la vida del gato.",
+  "mortal": "Puede ser mortal, especialmente en gatitos no vacunados.",
+  "cura": "No existe una cura específica, pero el tratamiento de soporte puede salvar vidas.",
+  "vacuna": "La vacuna es la mejor forma de prevención.",
   "contagia": "Sí, es altamente contagiosa entre gatos.",
-  "humanos": "No, la panleucopenia NO afecta a humanos."
+  "humanos": "No, no se transmite a humanos."
 };
 
 function registrarCorreo(){
   const email = document.getElementById("email").value;
-  if(!email.includes("@")){
+  const estado = document.getElementById("estado");
+
+  if(!email.includes("@") || !email.includes(".")){
     estado.textContent="Correo no válido";
     estado.style.color="red";
     return;
   }
-  const li=document.createElement("li");
-  li.textContent=email;
-  lista.appendChild(li);
+
+  correos.push(email);
   estado.textContent="Correo registrado correctamente ✔";
   estado.style.color="green";
-  email.value="";
+
+  actualizarAdmin();
+  document.getElementById("email").value="";
+}
+
+function actualizarAdmin(){
+  const lista = document.getElementById("listaCorreos");
+  lista.innerHTML="";
+  correos.forEach(c=>{
+    const li=document.createElement("li");
+    li.textContent=c;
+    lista.appendChild(li);
+  });
 }
 
 function preguntar(){
-  const q = pregunta.value.toLowerCase();
-  chat.innerHTML += `<div class='msg-user'>Tú: ${pregunta.value}</div>`;
-  let r = "Te recomendamos consultar con un veterinario para información específica.";
+  const p = document.getElementById("pregunta").value.toLowerCase();
+  const chat = document.getElementById("chat");
+
+  chat.innerHTML += `<div><strong>Tú:</strong> ${p}</div>`;
+  let r = "Consulta con un veterinario para información específica.";
+
   for(let k in respuestas){
-    if(q.includes(k)){ r = respuestas[k]; break; }
+    if(p.includes(k)){ r = respuestas[k]; break; }
   }
-  chat.innerHTML += `<div class='msg-bot'>Asistente: ${r}</div>`;
-  pregunta.value="";
+
+  chat.innerHTML += `<div><strong>Asistente:</strong> ${r}</div>`;
+  document.getElementById("pregunta").value="";
 }
+
+/* CTRL + A → ADMIN */
+document.addEventListener("keydown", e=>{
+  if(e.ctrlKey && e.key==="a"){
+    e.preventDefault();
+    const admin=document.getElementById("adminPanel");
+    admin.style.display = admin.style.display==="block" ? "none" : "block";
+  }
+});
 </script>
 
 </body>
