@@ -2,84 +2,77 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Salud Felina | Panleucopenia</title>
+<title>Salud Felina | Acceso</title>
+
 <style>
 body{
-  font-family:Arial, sans-serif;
+  font-family: Arial, sans-serif;
   background:#f3f7f6;
-  margin:0;
-  color:#2e3d38;
-}
-header{
-  background:#cfe7df;
-  padding:40px;
-  text-align:center;
-}
-section{
-  max-width:1000px;
-  margin:auto;
-  padding:40px 20px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
 }
 .card{
-  background:#fff;
+  background:white;
+  width:100%;
+  max-width:420px;
   padding:30px;
   border-radius:15px;
-  margin-bottom:30px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  box-shadow:0 10px 30px rgba(0,0,0,.1);
 }
+h2{text-align:center;color:#4a7c6a}
 input,button{
   width:100%;
   padding:14px;
-  margin-top:10px;
+  margin-top:12px;
   border-radius:8px;
   border:1px solid #ccc;
 }
 button{
   background:#6bb9a7;
-  color:#fff;
+  color:white;
   border:none;
   cursor:pointer;
 }
 button:hover{background:#5aa393}
 hr{margin:20px 0}
+.msg{
+  margin-top:10px;
+  font-size:14px;
+}
 .hidden{display:none}
-#msg{margin-top:10px;font-size:14px}
 </style>
 </head>
+
 <body>
 
-<header>
-<h1>Panleucopenia Felina 🐾</h1>
-<p>Información veterinaria responsable</p>
-</header>
+<div class="card" id="loginCard">
+  <h2>Iniciar sesión 🐾</h2>
 
-<!-- LOGIN SIEMPRE PRIMERO -->
-<section class="card" id="loginBox" style="max-width:400px">
-<h2>Acceso</h2>
+  <input id="email" type="email" placeholder="Correo electrónico">
+  <input id="password" type="password" placeholder="Contraseña">
 
-<input id="email" type="email" placeholder="Correo">
-<input id="password" type="password" placeholder="Contraseña">
+  <button id="registerBtn">Registrarme</button>
+  <div class="msg" id="registerMsg"></div>
 
-<button id="registerBtn">Registrarme</button>
-<button id="loginBtn">Iniciar sesión</button>
+  <button id="loginBtn">Iniciar sesión</button>
+  <div class="msg" id="loginMsg"></div>
 
-<hr>
+  <hr>
 
-<button id="googleBtn">Continuar con Google</button>
-
-<p id="msg"></p>
-</section>
-
-<!-- CONTENIDO -->
-<section id="contenido" class="hidden">
-<div class="card">
-<h2>¿Qué es la Panleucopenia Felina?</h2>
-<p>
-La panleucopenia felina es una enfermedad viral grave causada por el parvovirus felino.
-Afecta principalmente a gatitos y gatos no vacunados y puede ser mortal sin tratamiento.
-</p>
+  <button id="googleBtn">Continuar con Google</button>
+  <div class="msg" id="googleMsg"></div>
 </div>
-</section>
+
+<div class="card hidden" id="contenido">
+  <h2>Bienvenido 🐱</h2>
+  <p>
+    Has iniciado sesión correctamente.
+    Ahora puedes acceder al contenido completo.
+  </p>
+  <button onclick="location.reload()">Cerrar sesión</button>
+</div>
 
 <!-- FIREBASE -->
 <script type="module">
@@ -89,7 +82,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getFirestore,
@@ -97,7 +91,8 @@ import {
   addDoc,
   query,
   where,
-  getDocs
+  getDocs,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -113,62 +108,76 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// ELEMENTOS
 const email = document.getElementById("email");
 const password = document.getElementById("password");
-const msg = document.getElementById("msg");
-
-async function correoExiste(correo){
-  const q = query(collection(db,"registros"), where("email","==",correo));
-  const snap = await getDocs(q);
-  return !snap.empty;
-}
+const registerMsg = document.getElementById("registerMsg");
+const loginMsg = document.getElementById("loginMsg");
+const googleMsg = document.getElementById("googleMsg");
 
 // REGISTRAR
 document.getElementById("registerBtn").onclick = async () => {
-  msg.textContent="";
-  if(await correoExiste(email.value)){
-    msg.textContent="Correo ya registrado, inicia sesión";
-    return;
-  }
-  try{
+  registerMsg.textContent = "";
+  try {
+    const q = query(collection(db,"registros"), where("email","==",email.value));
+    const snap = await getDocs(q);
+    if(!snap.empty){
+      registerMsg.textContent = "⚠️ Correo ya registrado, inicia sesión";
+      registerMsg.style.color="orange";
+      return;
+    }
+
     await createUserWithEmailAndPassword(auth,email.value,password.value);
-    await addDoc(collection(db,"registros"),{email:email.value});
-    msg.textContent="Correo registrado correctamente";
-  }catch(e){
-    msg.textContent=e.message;
+
+    await addDoc(collection(db,"registros"),{
+      email: email.value,
+      fecha: serverTimestamp()
+    });
+
+    registerMsg.textContent="✅ Correo registrado correctamente";
+    registerMsg.style.color="green";
+
+  } catch(e){
+    registerMsg.textContent = e.message;
+    registerMsg.style.color="red";
   }
 };
 
 // LOGIN
 document.getElementById("loginBtn").onclick = async () => {
-  msg.textContent="";
-  if(!await correoExiste(email.value)){
-    msg.textContent="Correo no registrado, regístrate primero";
-    return;
-  }
-  try{
+  loginMsg.textContent="";
+  try {
     await signInWithEmailAndPassword(auth,email.value,password.value);
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("contenido").classList.remove("hidden");
-  }catch(e){
-    msg.textContent="Contraseña incorrecta";
+    loginMsg.textContent="✅ Sesión iniciada";
+    loginMsg.style.color="green";
+  } catch(e){
+    loginMsg.textContent="❌ Correo no registrado o contraseña incorrecta";
+    loginMsg.style.color="red";
   }
 };
 
 // GOOGLE
 document.getElementById("googleBtn").onclick = async () => {
-  const provider = new GoogleAuthProvider();
+  googleMsg.textContent="";
   try{
-    const res = await signInWithPopup(auth,provider);
-    if(!await correoExiste(res.user.email)){
-      await addDoc(collection(db,"registros"),{email:res.user.email});
-    }
-    document.getElementById("loginBox").classList.add("hidden");
-    document.getElementById("contenido").classList.remove("hidden");
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth,provider);
+    googleMsg.textContent="✅ Sesión con Google iniciada";
+    googleMsg.style.color="green";
   }catch(e){
-    msg.textContent=e.message;
+    googleMsg.textContent=e.message;
+    googleMsg.style.color="red";
   }
 };
+
+// SESIÓN
+onAuthStateChanged(auth,user=>{
+  if(user){
+    document.getElementById("loginCard").classList.add("hidden");
+    document.getElementById("contenido").classList.remove("hidden");
+  }
+});
 </script>
+
 </body>
 </html>
