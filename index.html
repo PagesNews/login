@@ -247,6 +247,60 @@ small{
   <p id="mensaje"></p>
 </section>
 
+     <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } 
+    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCdACTc1qQAFWDbkxnBnW58opthZgNytAs",
+    authDomain: "login07540.firebaseapp.com",
+    projectId: "login07540",
+    storageBucket: "login07540.firebasestorage.app",
+    messagingSenderId: "729426958528",
+    appId: "1:729426958528:web:a2cc1a3aba1997e11f3525"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // 📩 FORMULARIO
+  const form = document.getElementById("emailForm");
+  const input = document.getElementById("emailInput");
+  const mensaje = document.getElementById("mensaje");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = input.value.trim();
+
+    if (!email.includes("@") || !email.includes(".")) {
+      mensaje.textContent = "❌ Correo no válido";
+      mensaje.style.color = "red";
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, "registros"), {
+        email: email,
+        fecha: serverTimestamp(),
+        campaña: "Panleucopenia felina"
+      });
+
+      mensaje.textContent = "✅ Registro exitoso. Gracias por ayudar a los gatitos 🐱";
+      mensaje.style.color = "green";
+      input.value = "";
+
+    } catch (error) {
+      console.error(error);
+      mensaje.textContent = "❌ Error al registrar. Intenta nuevamente.";
+      mensaje.style.color = "red";
+    }
+  });
+</script>
+
      
 <!-- =========================
      SCRIPT
@@ -340,6 +394,7 @@ document.addEventListener("keydown", e=>{
 
 </body>
 </html>
+
 
 
 
