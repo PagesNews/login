@@ -1,11 +1,11 @@
 console.log("JS conectado correctamente");
 
 // 1. Capturamos el botón
-const btnRegistro = document.getElementById("btnRegistro");
+const btnRegister = document.getElementById("btnRegistro");
 
 // 2. Verificamos que exista
-if (btnRegistro) {
-  btnRegistro.addEventListener("click", () => {
+if (btnRegister) {
+  btnRegister.addEventListener("click", () => {
     alert("✅ El botón ya funciona");
     console.log("Botón presionado");
   });
