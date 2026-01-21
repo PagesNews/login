@@ -6,162 +6,193 @@
 
 <!-- ================== ESTILOS ================== -->
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{margin:0;padding:0;box-sizing:border-box}
+
 body{
-  font-family:Segoe UI,Arial;
-  background:#f4f7f6;
-  color:#333;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background:#f6f9f8;
+  color:#2f3e3a;
+  cursor: url("https://cur.cursors-4u.net/animals/ani-12/ani1135.cur"), auto;
 }
+
 header{
-  background:#cfe8df;
+  background:#cfe7df;
   padding:60px 20px;
   text-align:center;
 }
-section{max-width:1100px;margin:auto;padding:40px 20px}
-.card{
-  background:#fff;
-  padding:35px;
-  margin-bottom:40px;
-  border-radius:18px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08)
+
+header h1{font-size:2.6em}
+header p{margin-top:10px;font-size:1.1em}
+
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:40px 20px;
 }
-.hidden{display:none}
+
+.card{
+  background:#ffffff;
+  border-radius:18px;
+  padding:30px;
+  margin-bottom:40px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
+}
+
+img{
+  width:100%;
+  border-radius:15px;
+}
+
+h2{margin-bottom:15px;color:#4a7c6a}
+p{line-height:1.7}
+
 input,button{
   width:100%;
   padding:14px;
-  margin-top:10px;
-  font-size:16px;
+  margin-top:12px;
   border-radius:10px;
+  font-size:16px;
+  border:1px solid #ccc;
 }
+
 button{
   background:#6bb9a7;
   color:white;
   border:none;
   cursor:pointer;
 }
+
 button:hover{background:#5aa393}
+
 .chat{
-  border:1px solid #ccc;
+  background:#f1f5f4;
   padding:15px;
-  max-height:300px;
+  border-radius:10px;
+  max-height:250px;
   overflow-y:auto;
-  background:#fafafa;
+  margin-bottom:10px;
 }
-.success{color:green}
-.error{color:red}
+
+.msg-user{font-weight:bold}
+.msg-bot{margin-bottom:10px}
+
+small{color:#666}
 </style>
-
-<!-- ================== FIREBASE ================== -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "TU_API_KEY",
-  authDomain: "TU_PROYECTO.firebaseapp.com",
-  projectId: "TU_PROYECTO"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-/* ================== AUTH ================== */
-window.registrar = async ()=>{
-  try{
-    await createUserWithEmailAndPassword(auth,email.value,pass.value);
-    msg.textContent="Registro exitoso";
-    msg.className="success";
-  }catch(e){msg.textContent=e.message;msg.className="error";}
-}
-
-window.login = async ()=>{
-  try{
-    await signInWithEmailAndPassword(auth,email.value,pass.value);
-  }catch(e){msg.textContent=e.message;msg.className="error";}
-}
-
-window.loginGoogle = async ()=>{
-  await signInWithPopup(auth,new GoogleAuthProvider());
-}
-
-/* ================== SESIÓN ================== */
-onAuthStateChanged(auth,user=>{
-  if(user){
-    authBox.classList.add("hidden");
-    contenido.classList.remove("hidden");
-  }
-});
-
-/* ================== REGISTRO CAMPAÑA ================== */
-window.registrarCampaña = async ()=>{
-  await addDoc(collection(db,"campaign_signups"),{
-    email:auth.currentUser.email,
-    createdAt:serverTimestamp()
-  });
-  alert("Correo guardado para campañas");
-}
-
-/* ================== IA (LLAMA A BACKEND) ================== */
-window.preguntarIA = async ()=>{
-  const r = await fetch("https://TU_REGION-TU_PROYECTO.cloudfunctions.net/chatIA",{
-    method:"POST",
-    headers:{ "Content-Type":"application/json" },
-    body:JSON.stringify({ prompt: pregunta.value })
-  });
-  const data = await r.json();
-  chat.innerHTML += `<div><b>Tú:</b> ${pregunta.value}</div>`;
-  chat.innerHTML += `<div><b>IA:</b> ${data.respuesta}</div>`;
-  pregunta.value="";
-};
-</script>
 </head>
 
 <body>
 
 <header>
 <h1>Panleucopenia Felina 🐱</h1>
-<p>Información responsable, registro real y asistencia inteligente</p>
+<p>Información clara, prevención responsable y amor por los gatos</p>
 </header>
 
 <section>
 
-<div class="card" id="authBox">
-<h2>Registro / Inicio de sesión</h2>
-<input id="email" placeholder="Correo">
-<input id="pass" type="password" placeholder="Contraseña">
-<button onclick="registrar()">Registrarse</button>
-<button onclick="login()">Iniciar sesión</button>
-<button onclick="loginGoogle()">Entrar con Google</button>
-<p id="msg"></p>
+<!-- ================== INTRO ================== -->
+<div class="card grid">
+  <div>
+    <h2>¿Qué es la Panleucopenia?</h2>
+    <p>
+      Es una enfermedad viral **grave y altamente contagiosa** que afecta principalmente
+      a gatos jóvenes. Ataca el sistema inmunológico y digestivo, provocando deshidratación,
+      infecciones secundarias y, en muchos casos, la muerte si no se actúa a tiempo.
+    </p>
+  </div>
+  <img src="https://images.unsplash.com/photo-1595433707802-4f24a8c83fbb" alt="Gato veterinaria">
 </div>
 
-<div class="card hidden" id="contenido">
-<h2>Información avanzada</h2>
-<p>Contenido completo disponible solo para usuarios registrados.</p>
-<button onclick="registrarCampaña()">Recibir campañas de vacunación</button>
+<!-- ================== SÍNTOMAS ================== -->
+<div class="card grid">
+  <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131" alt="Gato enfermo">
+  <div>
+    <h2>Síntomas frecuentes</h2>
+    <ul>
+      <li>✔ Falta de apetito</li>
+      <li>✔ Vómitos y diarrea severa</li>
+      <li>✔ Fiebre o hipotermia</li>
+      <li>✔ Letargo extremo</li>
+      <li>✔ Deshidratación rápida</li>
+    </ul>
+    <p><strong>Ante cualquier síntoma, acude de inmediato al veterinario.</strong></p>
+  </div>
+</div>
 
-<h3>Asistente IA</h3>
-<div class="chat" id="chat"></div>
-<input id="pregunta" placeholder="Pregunta sobre la enfermedad">
-<button onclick="preguntarIA()">Preguntar</button>
+<!-- ================== PREVENCIÓN ================== -->
+<div class="card">
+  <h2>Prevención y esperanza</h2>
+  <p>
+    La **vacunación oportuna salva vidas**. Muchos gatos sobreviven cuando reciben atención
+    temprana y cuidados adecuados. Nuestra misión es informar y facilitar campañas de
+    vacunación gratuita.
+  </p>
+</div>
+
+<!-- ================== REGISTRO ================== -->
+<div class="card">
+  <h2>Registro para campañas de vacunación</h2>
+  <p>Déjanos tu correo. Solo lo usaremos para avisarte sobre jornadas gratuitas.</p>
+
+  <input id="email" placeholder="correo@email.com">
+  <button onclick="registrarCorreo()">Registrar correo</button>
+  <p id="estado"></p>
+
+  <small>Correos registrados:</small>
+  <ul id="lista"></ul>
+</div>
+
+<!-- ================== ASISTENTE ================== -->
+<div class="card">
+  <h2>Asistente informativo 🐾</h2>
+  <div class="chat" id="chat"></div>
+  <input id="pregunta" placeholder="Ej: ¿Es mortal? ¿Tiene cura?">
+  <button onclick="preguntar()">Preguntar</button>
 </div>
 
 </section>
+
+<!-- ================== SCRIPT ================== -->
+<script>
+const respuestas = {
+  "mortal": "Puede ser mortal, especialmente en gatitos sin vacunar. La atención temprana mejora mucho el pronóstico.",
+  "vacuna": "La vacuna es la mejor protección y debe aplicarse desde temprana edad.",
+  "cura": "No existe una cura específica, pero el tratamiento de soporte puede salvar la vida del gato.",
+  "contagia": "Sí, es altamente contagiosa entre gatos.",
+  "humanos": "No, la panleucopenia NO afecta a humanos."
+};
+
+function registrarCorreo(){
+  const email = document.getElementById("email").value;
+  if(!email.includes("@")){
+    estado.textContent="Correo no válido";
+    estado.style.color="red";
+    return;
+  }
+  const li=document.createElement("li");
+  li.textContent=email;
+  lista.appendChild(li);
+  estado.textContent="Correo registrado correctamente ✔";
+  estado.style.color="green";
+  email.value="";
+}
+
+function preguntar(){
+  const q = pregunta.value.toLowerCase();
+  chat.innerHTML += `<div class='msg-user'>Tú: ${pregunta.value}</div>`;
+  let r = "Te recomendamos consultar con un veterinario para información específica.";
+  for(let k in respuestas){
+    if(q.includes(k)){ r = respuestas[k]; break; }
+  }
+  chat.innerHTML += `<div class='msg-bot'>Asistente: ${r}</div>`;
+  pregunta.value="";
+}
+</script>
 
 </body>
 </html>
