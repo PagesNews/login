@@ -5,229 +5,54 @@
 <title>Protejamos a Nuestros Gatos</title>
 
 <style>
-/* --------- ESTILO GENERAL --------- */
+/* ================== ESTILO GENERAL ================== */
 body {
   margin: 0;
   font-family: "Segoe UI", Arial, sans-serif;
   background: #f6f8f7;
   color: #333;
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><text y="22" font-size="20">🐾</text></svg>'), auto;
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"><text x="2" y="22" font-size="20">🐾</text></svg>'), auto;
 }
 
 header {
-  background: #cfe8df;
-  padding: 40px;
+  background: linear-gradient(135deg, #cfe8df, #e6f3ee);
+  padding: 60px 20px;
   text-align: center;
 }
 
 header h1 {
   margin: 0;
+  font-size: 36px;
+  color: #3f6f63;
 }
 
+header p {
+  max-width: 700px;
+  margin: 20px auto 0;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* ================== SECCIONES ================== */
 section {
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
   padding: 40px 20px;
 }
 
 .card {
   background: #ffffff;
-  border-radius: 14px;
-  padding: 30px;
-  margin-bottom: 30px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 35px;
+  margin-bottom: 40px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.07);
 }
 
-h2 {
+.card h2 {
   color: #4a7c72;
+  margin-top: 0;
 }
 
-p {
-  line-height: 1.6;
-}
-
-/* --------- FORMULARIO --------- */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-input[type="email"] {
-  padding: 14px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-
-button {
-  padding: 14px;
-  background: #6bb9a7;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  color: white;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #5aa393;
-}
-
-.success {
-  color: #2e7d32;
-  font-weight: bold;
-}
-
-.error {
-  color: #c62828;
-  font-weight: bold;
-}
-
-/* --------- ADMIN --------- */
-#adminPanel {
-  display: none;
-}
-
-.email-item {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-}
-
-footer {
-  background: #cfe8df;
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <h1>Protejamos a Nuestros Gatos 🐱</h1>
-  <p>Conciencia, prevención y amor por la vida felina</p>
-</header>
-
-<section>
-
-<div class="card">
-  <h2>¿Qué es la Panleucopenia Felina?</h2>
-  <p>
-    La panleucopenia felina es una enfermedad viral grave, altamente contagiosa,
-    que afecta principalmente a gatitos y gatos no vacunados.
-  </p>
-  <p>
-    Ataca el sistema inmunológico y digestivo, pudiendo causar deshidratación severa,
-    infecciones secundarias y, en muchos casos, la muerte.
-  </p>
-</div>
-
-<div class="card">
-  <h2>¿Por qué es tan peligrosa?</h2>
-  <ul>
-    <li>⚠️ Alta mortalidad en gatitos</li>
-    <li>⚠️ Se transmite fácilmente</li>
-    <li>⚠️ Puede sobrevivir meses en el ambiente</li>
-    <li>✅ La vacunación salva vidas</li>
-  </ul>
-</div>
-
-<div class="card">
-  <h2>Regístrate para campañas de vacunación gratuita</h2>
-  <p>Déjanos tu correo y te avisaremos de/or las próximas jornadas.</p>
-
-  <form id="emailForm">
-    <input type="email" id="emailInput" placeholder="tu_correo@gmail.com" required>
-    <button type="submit">Registrar correo</button>
-  </form>
-
-  <p id="message"></p>
-</div>
-
-<!-- PANEL ADMIN -->
-<div class="card" id="adminPanel">
-  <h2>📋 Panel de administración</h2>
-  <div id="emailList"></div>
-</div>
-
-</section>
-
-<footer>
-  Campaña educativa sin fines de lucro – Protección Felina 🐾
-</footer>
-
-<script>
-// --------- UTILIDADES ---------
-function validarEmail(email) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
-
-function obtenerCorreos() {
-  return JSON.parse(localStorage.getItem("correos")) || [];
-}
-
-function guardarCorreo(email) {
-  const correos = obtenerCorreos();
-  correos.push({ email, fecha: new Date().toLocaleString() });
-  localStorage.setItem("correos", JSON.stringify(correos));
-}
-
-// --------- FORMULARIO ---------
-document.getElementById("emailForm").addEventListener("submit", function(e) {
-  e.preventDefault();
-
-  const email = document.getElementById("emailInput").value.trim();
-  const msg = document.getElementById("message");
-
-  if (!validarEmail(email)) {
-    msg.textContent = "❌ El correo no es válido.";
-    msg.className = "error";
-    return;
-  }
-
-  const correos = obtenerCorreos();
-  if (correos.some(c => c.email === email)) {
-    msg.textContent = "⚠️ Este correo ya está registrado.";
-    msg.className = "error";
-    return;
-  }
-
-  guardarCorreo(email);
-  msg.textContent = "✅ Correo registrado correctamente. ¡Gracias por ayudar!";
-  msg.className = "success";
-  this.reset();
-});
-
-// --------- PANEL ADMIN (CTRL + A) ---------
-document.addEventListener("keydown", function(e) {
-  if (e.ctrlKey && e.key.toLowerCase() === "a") {
-    const panel = document.getElementById("adminPanel");
-    panel.style.display = panel.style.display === "none" ? "block" : "none";
-    cargarCorreos();
-  }
-});
-
-function cargarCorreos() {
-  const lista = document.getElementById("emailList");
-  const correos = obtenerCorreos();
-  lista.innerHTML = "";
-
-  if (correos.length === 0) {
-    lista.textContent = "No hay correos registrados aún.";
-    return;
-  }
-
-  correos.forEach(c => {
-    const div = document.createElement("div");
-    div.className = "email-item";
-    div.textContent = `${c.email} — ${c.fecha}`;
-    lista.appendChild(div);
-  });
-}
-</script>
-
-</body>
-</html>
+.card p {
+  line-height: 1.7;
+  font-siz
