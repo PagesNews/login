@@ -5,23 +5,31 @@
 <title>Salud Felina | Panleucopenia</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
 body{
-  font-family:Arial, sans-serif;
+  font-family: Arial, sans-serif;
   background:#f3f7f6;
   color:#2e3d38;
   line-height:1.8;
 }
+
 header{
   background:#cfe7df;
   padding:50px 20px;
   text-align:center;
 }
+
 section{
   max-width:1100px;
   margin:auto;
   padding:40px 20px;
 }
+
 .card{
   background:white;
   padding:35px;
@@ -29,32 +37,47 @@ section{
   margin-bottom:40px;
   box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
+
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
   gap:30px;
   align-items:center;
 }
+
 img{
   width:100%;
   border-radius:15px;
 }
-h2{color:#4a7c6a;margin-bottom:15px}
+
+h2{
+  color:#4a7c6a;
+  margin-bottom:15px;
+}
+
 button,input{
   width:100%;
   padding:14px;
   margin-top:12px;
   border-radius:8px;
   border:1px solid #ccc;
+  font-size:16px;
 }
+
 button{
   background:#6bb9a7;
   color:white;
   border:none;
   cursor:pointer;
 }
-button:hover{background:#5aa393}
-.hidden{display:none}
+
+button:hover{
+  background:#5aa393;
+}
+
+.hidden{
+  display:none;
+}
 </style>
 </head>
 
@@ -62,15 +85,17 @@ button:hover{background:#5aa393}
 
 <header>
 <h1>Panleucopenia Felina 🐾</h1>
-<p>Información veterinaria clara para proteger a los gatos</p>
+<p>Información veterinaria clara y responsable para proteger la vida de los gatos</p>
 </header>
 
-<!-- LOGIN AL INICIO -->
-<section id="loginSection" class="card" style="max-width:400px">
-<h2>Acceso a información completa</h2>
+<!-- ================= LOGIN ================= -->
+<section id="loginSection" class="card" style="max-width:420px">
+
+<h2>Acceso a la información completa</h2>
+
 <p>
-Para acceder al contenido completo sobre prevención, síntomas avanzados y
-recomendaciones profesionales, debes iniciar sesión.
+Para acceder a la información detallada sobre síntomas, prevención,
+tratamientos y recomendaciones veterinarias, debes iniciar sesión.
 </p>
 
 <input id="email" type="email" placeholder="Correo electrónico">
@@ -78,12 +103,20 @@ recomendaciones profesionales, debes iniciar sesión.
 
 <button id="registerBtn">Registrarme</button>
 <button id="loginBtn">Iniciar sesión</button>
+
+<div style="margin:20px 0; display:flex; align-items:center;">
+  <hr style="flex:1">
+  <span style="margin:0 10px; color:#777">o</span>
+  <hr style="flex:1">
+</div>
+
 <button id="googleBtn">Continuar con Google</button>
 
 <p id="authMsg"></p>
+
 </section>
 
-<!-- CONTENIDO (OCULTO HASTA LOGIN) -->
+<!-- ================= CONTENIDO ================= -->
 <section id="contenido" class="hidden">
 
 <div class="card grid">
@@ -95,50 +128,68 @@ Afecta principalmente a gatitos y gatos no vacunados, atacando el sistema inmuno
 el tracto digestivo y la médula ósea.
 </p>
 <p>
-Es considerada una de las enfermedades más peligrosas en medicina veterinaria felina,
-debido a su alta tasa de mortalidad cuando no se trata a tiempo.
+Es una de las enfermedades más peligrosas en medicina veterinaria felina debido a
+su alta tasa de mortalidad cuando no se detecta a tiempo.
+</p>
+<p>
+El virus es extremadamente resistente en el ambiente y puede sobrevivir durante
+meses en superficies contaminadas.
 </p>
 </div>
+
 <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80">
+
 </div>
 
 <div class="card grid">
+
 <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=80">
+
 <div>
 <h2>Síntomas clínicos</h2>
 <p>
-Los síntomas pueden aparecer de forma repentina y empeorar rápidamente:
+Los síntomas suelen aparecer de forma repentina y pueden empeorar rápidamente:
 </p>
 <ul>
-<li>Fiebre alta o temperatura corporal baja</li>
-<li>Vómitos frecuentes</li>
+<li>Fiebre alta o temperatura corporal anormalmente baja</li>
+<li>Vómitos persistentes</li>
 <li>Diarrea severa</li>
 <li>Deshidratación extrema</li>
-<li>Debilidad y aislamiento</li>
+<li>Letargo, debilidad y aislamiento</li>
 <li>Pérdida total del apetito</li>
 </ul>
+<p>
+Ante cualquiera de estos signos, es fundamental acudir de inmediato al veterinario.
+</p>
 </div>
+
 </div>
 
 <div class="card grid">
+
 <div>
 <h2>Prevención y vacunación</h2>
 <p>
-La vacunación es la herramienta más efectiva para prevenir la panleucopenia.
+La vacunación es la herramienta más efectiva para prevenir la panleucopenia felina.
 Un esquema de vacunación adecuado desde las primeras semanas de vida puede
 prevenir completamente la enfermedad.
 </p>
 <p>
-También es fundamental mantener una correcta higiene del entorno y evitar
-el contacto con gatos infectados.
+Además, es importante mantener una correcta higiene del entorno,
+desinfectar superficies y evitar el contacto con gatos infectados.
+</p>
+<p>
+La educación de los cuidadores es clave para reducir la propagación del virus.
 </p>
 </div>
+
 <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=900&q=80">
+
 </div>
 
 </section>
 
-<!-- FIREBASE AUTH (ÚNICO SCRIPT) -->
+<!-- ================= FIREBASE ================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
@@ -146,9 +197,15 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged
+  signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCdACTc1qQAFWDbkxnBnW58opthZgNytAs",
@@ -161,40 +218,63 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const authMsg = document.getElementById("authMsg");
+const contenido = document.getElementById("contenido");
+const loginSection = document.getElementById("loginSection");
 
+/* REGISTRO */
 registerBtn.onclick = async () => {
   try {
-    await createUserWithEmailAndPassword(auth, email.value, password.value);
-    authMsg.textContent = "Registro exitoso";
+    const cred = await createUserWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value
+    );
+
+    await setDoc(doc(db, "usuarios", cred.user.uid), {
+      email: cred.user.email,
+      proveedor: "password",
+      fechaRegistro: serverTimestamp()
+    });
+
+    authMsg.textContent = "Registro exitoso. Ahora inicia sesión.";
   } catch (e) {
     authMsg.textContent = e.message;
   }
 };
 
+/* LOGIN */
 loginBtn.onclick = async () => {
   try {
-    await signInWithEmailAndPassword(auth, email.value, password.value);
-    authMsg.textContent = "Sesión iniciada";
+    await signInWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value
+    );
+
+    loginSection.classList.add("hidden");
+    contenido.classList.remove("hidden");
   } catch (e) {
     authMsg.textContent = e.message;
   }
 };
 
+/* GOOGLE */
 googleBtn.onclick = async () => {
-  const provider = new GoogleAuthProvider();
-  await signInWithPopup(auth, provider);
-};
+  try {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
 
-onAuthStateChanged(auth, user => {
-  if (user) {
-    document.getElementById("loginSection").style.display = "none";
-    document.getElementById("contenido").classList.remove("hidden");
+    loginSection.classList.add("hidden");
+    contenido.classList.remove("hidden");
+  } catch (e) {
+    authMsg.textContent = e.message;
   }
-});
+};
 </script>
 
 </body>
