@@ -294,8 +294,32 @@ document.addEventListener("keydown", e=>{
   }
 });
 </script>
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // 🔐 TU CONFIGURACIÓN REAL
+  const firebaseConfig = {
+    apiKey: "AIzaSyCdACTc1qQAFWDbkxnBnW58opthZgNytAs",
+    authDomain: "login07540.firebaseapp.com",
+    projectId: "login07540",
+    storageBucket: "login07540.firebasestorage.app",
+    messagingSenderId: "729426958528",
+    appId: "1:729426958528:web:a2cc1a3aba1997e11f3525"
+  };
+
+  // Inicializar Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  console.log("🔥 Firebase conectado correctamente");
+</script>
 
 </body>
 </html>
+
 
 
