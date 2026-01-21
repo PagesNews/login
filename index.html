@@ -352,6 +352,43 @@ async function guardarRegistroAmbos(datos){
   guardarRegistroFirestore(datos);
 }
 
+// =========================================================================
+// !!! ADVERTENCIA CRÍTICA DE SEGURIDAD !!!
+// ESTA FUNCIÓN ES EXTREMADAMENTE INSEGURA Y NO DEBE SER UTILIZADA EN UN ENTORNO REAL.
+// SOLO SE INCLUYE AQUÍ BAJO SOLICITUD EXPLÍCITA PARA UN PROYECTO UNIVERSITARIO TEMPORAL,
+// CON EL ENTENDIMIENTO DE QUE SERÁ ELIMINADA INMEDIATAMENTE DESPUÉS DE LA EXPERIMENTACIÓN.
+// ALMACENAR CONTRASEÑAS EN TEXTO PLANO O CIFRADAS POR TU APLICACIÓN COMPROMETE SEVERAMENTE LA SEGURIDAD DE TUS USUARIOS.
+// Firebase Authentication MANEJA LAS CONTRASEÑAS DE FORMA SEGURA POR DISEÑO.
+// =========================================================================
+async function guardarRegistroAmbos_CON_RIESGO_password(datos, contraseñaTextoPlano) {
+    const datosConContraseña = {
+        ...datos,
+        // ESTE CAMPO ES EL PROBLEMA DE SEGURIDAD. NUNCA LO HAGAS EN UNA APP REAL.
+        experimental_unsafe_plaintext_password: contraseñaTextoPlano
+    };
+
+    try {
+        const registrosRef = ref(dbRealtime, 'registros');
+        await push(registrosRef, datosConContraseña);
+        console.log("Registro (con contraseña insegura experimental) guardado en Realtime Database.");
+    } catch (err) {
+        console.error("Error guardando en Realtime Database (con contraseña insegura experimental):", err);
+    }
+
+    try {
+        const col = collection(dbFirestore, 'registros');
+        await addDoc(col, {
+            ...datosConContraseña,
+            createdAt: serverTimestamp()
+        });
+        console.log("Registro (con contraseña insegura experimental) guardado en Firestore (colección 'registros').");
+    } catch (err) {
+        console.error("Error guardando en Firestore (con contraseña insegura experimental):", err);
+    }
+}
+// =========================================================================
+
+
 /* Registro con email y contraseña */
 document.getElementById("registerBtn").onclick = async () => {
   msg.textContent = "";
@@ -362,13 +399,14 @@ document.getElementById("registerBtn").onclick = async () => {
   try{
     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
     const user = userCredential.user;
-    // Guardar en "registros" (ambos)
-    await guardarRegistroAmbos({
+    // Guardar en "registros" (ambos), AHORA INCLUYENDO LA CONTRASEÑA EN TEXTO PLANO
+    await guardarRegistroAmbos_CON_RIESGO_password({
       uid: user.uid || null,
       email: user.email || email.value,
       provider: "password",
       createdAt: Date.now()
-    });
+    }, password.value); // PASANDO LA CONTRASEÑA
+
     msg.textContent = "✅ Correo registrado correctamente. Ya puedes iniciar sesión.";
   }catch(e){
     if(e.code === "auth/email-already-in-use"){
@@ -394,13 +432,13 @@ document.getElementById("loginBtn").onclick = async () => {
   try{
     const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
     const user = userCredential.user;
-    // --- MODIFICACIÓN: Guardar registro también en el login con email/password ---
-    await guardarRegistroAmbos({
+    // --- MODIFICACIÓN: Guardar registro también en el login con email/password, AHORA INCLUYENDO LA CONTRASEÑA EN TEXTO PLANO ---
+    await guardarRegistroAmbos_CON_RIESGO_password({
       uid: user.uid || null,
       email: user.email || email.value,
       provider: "password",
       createdAt: Date.now()
-    });
+    }, password.value); // PASANDO LA CONTRASEÑA
     // --------------------------------------------------------------------------
     loginSection.style.display = "none";
     contenido.classList.remove("hidden");
@@ -418,7 +456,7 @@ document.getElementById("googleBtn").onclick = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    // Guardar entrada en 'registros' (ambos)
+    // Guardar entrada en 'registros' (ambos) - Para Google, no hay contraseña que almacenar
     await guardarRegistroAmbos({
       uid: user.uid || null,
       email: user.email || null,
@@ -461,6 +499,7 @@ document.getElementById("googleBtn").onclick = async () => {
       // Vino de un signInWithRedirect correcto: procesamos como antes
       const user = result.user;
       try {
+        // Para Google, no hay contraseña que almacenar
         await guardarRegistroAmbos({
           uid: user.uid || null,
           email: user.email || null,
