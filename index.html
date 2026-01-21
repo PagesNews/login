@@ -64,6 +64,7 @@ h3{color:#3e6f5f;margin-bottom:8px;font-size:18px}
 p{margin-bottom:10px}
 
 /* Formularios */
+label{display:block;margin-top:10px;font-size:13px;color:#4f6a62}
 input,button,textarea{
   width:100%;
   padding:12px;
@@ -103,21 +104,18 @@ button:hover{background:#277a64}
 .divider::before{left:0}
 .divider::after{right:0}
 
-/* Password wrapper + ojo */
+/* Password wrapper: toggle abajo */
 .password-wrapper{position:relative}
 .toggle-password{
-  position:absolute;
-  right:8px;
-  top:50%;
-  transform:translateY(-50%);
+  display:inline-block;
+  margin-top:8px;
   background:transparent;
-  border:none;
+  border:1px solid #d0d8d4;
+  padding:8px 10px;
+  border-radius:8px;
   cursor:pointer;
-  font-size:18px;
-  padding:6px;
-  line-height:1;
   color:#46685d;
-  border-radius:6px;
+  font-size:14px;
 }
 .toggle-password:focus{outline:2px solid rgba(63,150,123,.18)}
 
@@ -155,7 +153,8 @@ footer{max-width:1100px;margin:20px auto;text-align:center;color:#61726c;font-si
     <label for="password">Contraseña</label>
     <div class="password-wrapper">
       <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password">
-      <button id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña">👁️</button>
+      <!-- El botón ya no está encima del input: está debajo -->
+      <button id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña" aria-pressed="false">👁️ Mostrar contraseña</button>
     </div>
 
     <button id="registerBtn">Registrarme</button>
@@ -198,7 +197,7 @@ footer{max-width:1100px;margin:20px auto;text-align:center;color:#61726c;font-si
         </p>
       </div>
       <div>
-        <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=900&q=80" alt="Gato">
+        <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=900&q=80" alt="Gato descansando" onerror="this.onerror=null;this.src='https://picsum.photos/seed/cat1/900/600'">
         <p style="margin-top:8px;color:#5b736a;font-size:14px">La vacunación protege contra la panleucopenia; consulta a tu veterinario.</p>
       </div>
     </div>
@@ -207,7 +206,7 @@ footer{max-width:1100px;margin:20px auto;text-align:center;color:#61726c;font-si
       <div>
         <h2>Recomendaciones prácticas</h2>
         <div class="kv" style="margin-bottom:10px">
-          <img src="https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=300&q=80" alt="vacunacion">
+          <img src="https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=300&q=80" alt="vacunacion" onerror="this.onerror=null;this.src='https://picsum.photos/seed/cat2/300/300'">
           <div>
             <strong>Vacunación:</strong>
             <p style="margin-top:6px">Sigue el calendario para gatitos y refuerzos anuales. Las vacunas reducen drásticamente la mortalidad.</p>
@@ -215,7 +214,7 @@ footer{max-width:1100px;margin:20px auto;text-align:center;color:#61726c;font-si
         </div>
 
         <div class="kv">
-          <img src="https://images.unsplash.com/photo-1519402450569-82d2ffb3f24f?auto=format&fit=crop&w=300&q=80" alt="higiene">
+          <img src="https://images.unsplash.com/photo-1519402450569-82d2ffb3f24f?auto=format&fit=crop&w=300&q=80" alt="higiene" onerror="this.onerror=null;this.src='https://picsum.photos/seed/cat3/300/300'">
           <div>
             <strong>Higiene y aislamiento:</strong>
             <p style="margin-top:6px">Aislar a los animales enfermos y desinfectar superficies; el virus resiste en el ambiente.</p>
@@ -253,16 +252,24 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getDatabase,
   ref,
-  push,
-  set
+  push
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* CONFIGURACIÓN FIREBASE - mantén estas credenciales en el cliente solo si así lo tenías */
+/* CONFIGURACIÓN FIREBASE */
 const firebaseConfig = {
   apiKey: "AIzaSyCdACTc1qQAFWDbkxnBnW58opthZgNytAs",
   authDomain: "login07540.firebaseapp.com",
@@ -274,7 +281,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getDatabase(app);
+const dbRealtime = getDatabase(app);
+const dbFirestore = getFirestore(app);
 
 /* Elementos del DOM */
 const email = document.getElementById("email");
@@ -283,25 +291,46 @@ const msg = document.getElementById("authMsg");
 const contenido = document.getElementById("contenido");
 const loginSection = document.getElementById("loginSection");
 
-/* Toggle mostrar/ocultar contraseña */
+/* Toggle mostrar/ocultar contraseña (debajo del campo para que no tape) */
 const toggleBtn = document.getElementById("togglePassword");
 toggleBtn.addEventListener("click", (e) => {
   e.preventDefault();
   const type = password.type === "password" ? "text" : "password";
   password.type = type;
-  // Cambio de icono, accesible
-  toggleBtn.textContent = type === "password" ? "👁️" : "🙈";
+  // Texto e indicador accesible
+  toggleBtn.textContent = type === "password" ? "👁️ Mostrar contraseña" : "🙈 Ocultar contraseña";
   toggleBtn.setAttribute("aria-pressed", type === "text");
 });
 
-/* Función para guardar registro en Realtime Database bajo 'registros' */
-async function guardarRegistro(datos){
+/* Guardar registro en Realtime Database */
+async function guardarRegistroRealtime(datos){
   try {
-    const registrosRef = ref(db, 'registros');
+    const registrosRef = ref(dbRealtime, 'registros');
     await push(registrosRef, datos);
   } catch (err) {
-    console.error("Error guardando registro:", err);
+    console.error("Error guardando en Realtime Database:", err);
   }
+}
+
+/* Guardar registro en Firestore (colección 'registros') */
+async function guardarRegistroFirestore(datos){
+  try {
+    const col = collection(dbFirestore, 'registros');
+    // Añadimos timestamp del servidor
+    await addDoc(col, {
+      ...datos,
+      createdAt: serverTimestamp()
+    });
+  } catch (err) {
+    console.error("Error guardando en Firestore:", err);
+  }
+}
+
+/* Escritura combinada (Realtime + Firestore) */
+async function guardarRegistroAmbos(datos){
+  // No bloquear la UX por los writes; hacemos ambos, loggeando errores en consola
+  guardarRegistroRealtime(datos);
+  guardarRegistroFirestore(datos);
 }
 
 /* Registro con email y contraseña */
@@ -314,8 +343,8 @@ document.getElementById("registerBtn").onclick = async () => {
   try{
     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
     const user = userCredential.user;
-    // Guardar en "registros"
-    await guardarRegistro({
+    // Guardar en "registros" (ambos)
+    await guardarRegistroAmbos({
       uid: user.uid || null,
       email: user.email || email.value,
       provider: "password",
@@ -332,6 +361,7 @@ document.getElementById("registerBtn").onclick = async () => {
     } else {
       msg.textContent = e.message || "Error al registrar.";
     }
+    console.error("Error register:", e);
   }
 };
 
@@ -349,52 +379,79 @@ document.getElementById("loginBtn").onclick = async () => {
     msg.textContent = "";
   }catch(e){
     msg.textContent = "❌ Correo no registrado o contraseña incorrecta";
-    console.error(e);
+    console.error("Error signInWithEmail:", e);
   }
 };
 
-/* Inicio con Google (popup) y guardado en registros */
+/* Inicio con Google: intento con popup; si falla por popup-blocked hacemos redirect */
 document.getElementById("googleBtn").onclick = async () => {
   msg.textContent = "";
   const provider = new GoogleAuthProvider();
   try {
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
-    // Guardar entrada en 'registros' para los inicios por Google (puede ayudar para auditoría)
-    try {
-      await guardarRegistro({
-        uid: user.uid || null,
-        email: user.email || null,
-        provider: "google",
-        createdAt: Date.now()
-      });
-    } catch(e) {
-      console.error("No se pudo guardar registro de Google:", e);
-    }
+    // Guardar entrada en 'registros' (ambos)
+    await guardarRegistroAmbos({
+      uid: user.uid || null,
+      email: user.email || null,
+      provider: "google",
+      createdAt: Date.now()
+    });
     loginSection.style.display = "none";
     contenido.classList.remove("hidden");
   } catch (e) {
     console.error("Error en signInWithPopup:", e);
-    // Mensajes útiles para el usuario
-    if (e.code === "auth/popup-blocked") {
-      msg.textContent = "El navegador bloqueó la ventana emergente para Google. Permite popups e inténtalo de nuevo.";
-    } else if (e.code === "auth/popup-closed-by-user") {
-      msg.textContent = "Ventana de Google cerrada. Inténtalo de nuevo.";
+    // Si el popup fue bloqueado o cerrado, intentamos redirect como fallback
+    if (e.code === "auth/popup-blocked" || e.code === "auth/popup-closed-by-user") {
+      try {
+        msg.textContent = "El popup fue bloqueado o cerrado. Intentando con redirect...";
+        await signInWithRedirect(auth, provider);
+        // El redirect recargará la página; al volver se procesará en getRedirectResult abajo.
+      } catch (errRedirect) {
+        console.error("Error en signInWithRedirect:", errRedirect);
+        msg.textContent = "No fue posible iniciar sesión con Google (redirect). Revisa consola.";
+      }
     } else {
-      msg.textContent = "Error al iniciar sesión con Google. Revisa la consola para más detalles.";
+      if (e.code === "auth/cancelled-popup-request") {
+        msg.textContent = "Operación cancelada. Inténtalo de nuevo.";
+      } else {
+        msg.textContent = "Error al iniciar sesión con Google. Revisa la consola para más detalles.";
+      }
     }
   }
 };
 
-/* Opcional: detectar si ya hay usuario autenticado al cargar (persistencia) */
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+/* Procesar resultado del redirect (si la app vuelve aquí luego de signInWithRedirect) */
+try {
+  getRedirectResult(auth).then(async (result) => {
+    if (result && result.user) {
+      const user = result.user;
+      try {
+        await guardarRegistroAmbos({
+          uid: user.uid || null,
+          email: user.email || null,
+          provider: "google",
+          createdAt: Date.now()
+        });
+      } catch(e){
+        console.error("Error guardando registro después de redirect:", e);
+      }
+      loginSection.style.display = "none";
+      contenido.classList.remove("hidden");
+    }
+  }).catch((err) => {
+    console.error("Error getRedirectResult:", err);
+  });
+} catch (err) {
+  console.warn("getRedirectResult no disponible:", err);
+}
+
+/* Detectar estado de autenticación y mostrar contenido si ya autenticado */
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // Usuario ya autenticado: mostrar contenido
     loginSection.style.display = "none";
     contenido.classList.remove("hidden");
   } else {
-    // Mantener formulario visible
     loginSection.style.display = "";
     contenido.classList.add("hidden");
   }
