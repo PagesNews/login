@@ -5,61 +5,91 @@
 <title>Salud Felina | Panleucopenia</title>
 
 <style>
+/* Reset y base */
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:Arial, sans-serif;
   background:#f3f7f6;
   color:#2e3d38;
   line-height:1.8;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding-bottom:40px;
+  /* Cursor personalizado: patita de gato (SVG embebido) */
+  cursor: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'><circle%20cx='8'%20cy='12'%20r='3'%20fill='%234a7c6a'/><circle%20cx='24'%20cy='12'%20r='3'%20fill='%234a7c6a'/><circle%20cx='12'%20cy='6'%20r='3'%20fill='%234a7c6a'/><circle%20cx='20'%20cy='6'%20r='3'%20fill='%234a7c6a'/><path%20d='M16%2018c-5%200-7%204-7%206%200%202%203%204%207%204s7-2%207-4c0-2-2-6-7-6z'%20fill='%234a7c6a'/></svg>") 16 16, auto;
 }
+
+/* Encabezado */
 header{
-  background:#cfe7df;
+  background:linear-gradient(90deg,#cfe7df,#e6f2ef);
   padding:50px 20px;
   text-align:center;
+  border-bottom:1px solid rgba(0,0,0,.04);
 }
-section{
+header h1{font-size:28px;margin-bottom:8px}
+header p{opacity:.9}
+
+/* Contenedor principal */
+.container{
   max-width:1100px;
-  margin:auto;
-  padding:40px 20px;
+  margin:30px auto;
+  padding:0 20px;
 }
+
+/* Tarjetas y grid */
 .card{
   background:white;
-  padding:35px;
-  border-radius:18px;
-  margin-bottom:40px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  padding:28px;
+  border-radius:14px;
+  margin-bottom:24px;
+  box-shadow:0 8px 20px rgba(0,0,0,.06);
 }
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:30px;
+  gap:20px;
   align-items:center;
 }
+
+/* Imágenes */
 img{
   width:100%;
-  border-radius:15px;
+  border-radius:12px;
+  display:block;
 }
-h2{color:#4a7c6a;margin-bottom:15px}
-input,button{
+
+/* Tipografía */
+h2{color:#2f6b5d;margin-bottom:12px}
+h3{color:#3e6f5f;margin-bottom:8px;font-size:18px}
+p{margin-bottom:10px}
+
+/* Formularios */
+input,button,textarea{
   width:100%;
-  padding:14px;
-  margin-top:12px;
+  padding:12px;
+  margin-top:8px;
   border-radius:8px;
-  border:1px solid #ccc;
+  border:1px solid #d0d8d4;
+  font-size:14px;
 }
+input:focus,textarea:focus{outline:none;border-color:#9ecdbf;box-shadow:0 0 0 3px rgba(154,206,191,.12)}
 button{
-  background:#6bb9a7;
+  background:#2f8c74;
   color:white;
   border:none;
   cursor:pointer;
+  padding:12px;
+  transition:background .18s;
 }
-button:hover{background:#5aa393}
+button:hover{background:#277a64}
 .hidden{display:none}
 
+/* Divider */
 .divider{
   text-align:center;
-  margin:20px 0;
+  margin:18px 0;
   position:relative;
+  color:#7d8b86;
 }
 .divider::before,
 .divider::after{
@@ -68,52 +98,154 @@ button:hover{background:#5aa393}
   top:50%;
   width:40%;
   height:1px;
-  background:#ccc;
+  background:#e0e6e3;
 }
 .divider::before{left:0}
 .divider::after{right:0}
+
+/* Password wrapper + ojo */
+.password-wrapper{position:relative}
+.toggle-password{
+  position:absolute;
+  right:8px;
+  top:50%;
+  transform:translateY(-50%);
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  font-size:18px;
+  padding:6px;
+  line-height:1;
+  color:#46685d;
+  border-radius:6px;
+}
+.toggle-password:focus{outline:2px solid rgba(63,150,123,.18)}
+
+/* Small decorative info */
+.kv{display:flex;gap:12px;align-items:flex-start}
+.kv img{width:72px;height:72px;object-fit:cover;border-radius:10px}
+
+/* Footer */
+footer{max-width:1100px;margin:20px auto;text-align:center;color:#61726c;font-size:13px}
+
+/* Responsiveness tweaks */
+@media (max-width:480px){
+  header{padding:28px 12px}
+  .card{padding:18px}
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>Panleucopenia Felina 🐾</h1>
-<p>Información veterinaria clara para proteger a los gatos</p>
+  <h1>Panleucopenia Felina 🐾</h1>
+  <p>Información veterinaria clara y recursos para proteger a tu gato</p>
 </header>
 
-<!-- LOGIN -->
-<section id="loginSection" class="card" style="max-width:400px">
-<h2>Iniciar sesión</h2>
+<div class="container">
 
-<input id="email" type="email" placeholder="Correo electrónico">
-<input id="password" type="password" placeholder="Contraseña">
+  <!-- LOGIN -->
+  <section id="loginSection" class="card" style="max-width:420px;margin:0 auto 24px;">
+    <h2>Iniciar sesión / Registrarse</h2>
 
-<button id="registerBtn">Registrarme</button>
-<button id="loginBtn">Iniciar sesión</button>
+    <label for="email">Correo electrónico</label>
+    <input id="email" type="email" placeholder="tu@correo.com" autocomplete="email">
 
-<div class="divider">o</div>
+    <label for="password">Contraseña</label>
+    <div class="password-wrapper">
+      <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password">
+      <button id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña">👁️</button>
+    </div>
 
-<button id="googleBtn">Continuar con Google</button>
+    <button id="registerBtn">Registrarme</button>
+    <button id="loginBtn" style="margin-top:8px;background:#4a7c6a">Iniciar sesión</button>
 
-<p id="authMsg"></p>
-</section>
+    <div class="divider">o</div>
 
-<!-- CONTENIDO -->
-<section id="contenido" class="hidden">
-<div class="card grid">
-<div>
-<h2>¿Qué es la Panleucopenia Felina?</h2>
-<p>
-La panleucopenia felina es una enfermedad viral grave causada por el parvovirus felino.
-Afecta principalmente a gatitos y gatos no vacunados.
-</p>
+    <button id="googleBtn" style="background:#de5246">Continuar con Google</button>
+
+    <p id="authMsg" style="margin-top:12px;color:#3e5f56"></p>
+  </section>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <section id="contenido" class="hidden">
+    <div class="card grid">
+      <div>
+        <h2>¿Qué es la Panleucopenia Felina?</h2>
+        <p>
+          La panleucopenia felina es una enfermedad viral grave causada por un parvovirus que ataca las células en división rápida,
+          incluyendo la médula ósea y el tracto intestinal. Es especialmente peligrosa en gatitos y en gatos no vacunados.
+        </p>
+
+        <h3>Síntomas comunes</h3>
+        <ul>
+          <li>Fiebre, letargo y pérdida de apetito</li>
+          <li>Vómitos y diarrea severa (a menudo con sangre)</li>
+          <li>Deshidratación rápida y leucopenia (baja en glóbulos blancos)</li>
+        </ul>
+
+        <h3>Prevención</h3>
+        <p>
+          La prevención eficaz es la vacunación. Sigue el calendario de vacunación recomendado por el veterinario y evita contacto
+          con animales posiblemente infectados.
+        </p>
+
+        <h3>Tratamiento</h3>
+        <p>
+          No existe un tratamiento antiviral específico ampliamente disponible; el manejo es de soporte: fluidoterapia, control de
+          infecciones secundarias y cuidados intensivos. La intervención temprana mejora significativamente el pronóstico.
+        </p>
+      </div>
+      <div>
+        <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=900&q=80" alt="Gato">
+        <p style="margin-top:8px;color:#5b736a;font-size:14px">La vacunación protege contra la panleucopenia; consulta a tu veterinario.</p>
+      </div>
+    </div>
+
+    <div class="card grid">
+      <div>
+        <h2>Recomendaciones prácticas</h2>
+        <div class="kv" style="margin-bottom:10px">
+          <img src="https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=300&q=80" alt="vacunacion">
+          <div>
+            <strong>Vacunación:</strong>
+            <p style="margin-top:6px">Sigue el calendario para gatitos y refuerzos anuales. Las vacunas reducen drásticamente la mortalidad.</p>
+          </div>
+        </div>
+
+        <div class="kv">
+          <img src="https://images.unsplash.com/photo-1519402450569-82d2ffb3f24f?auto=format&fit=crop&w=300&q=80" alt="higiene">
+          <div>
+            <strong>Higiene y aislamiento:</strong>
+            <p style="margin-top:6px">Aislar a los animales enfermos y desinfectar superficies; el virus resiste en el ambiente.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>¿Cuándo acudir al veterinario?</h3>
+        <p>
+          Si observas vómitos persistentes, diarrea con sangre, deshidratación o depresión marcada en un gatito, busca atención inmediata.
+        </p>
+
+        <h3>Recursos</h3>
+        <ul>
+          <li>Documentación veterinaria oficial</li>
+          <li>Clínicas y hospitales veterinarios locales</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
 </div>
-<img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80">
-</div>
-</section>
 
-<!-- FIREBASE -->
+<footer>
+  <p>Contenido informativo — no sustituye la consulta veterinaria. Proyecto: Salud Felina.</p>
+</footer>
+
+<!-- FIREBASE y Lógica -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
@@ -123,7 +255,14 @@ import {
   GoogleAuthProvider,
   signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import {
+  getDatabase,
+  ref,
+  push,
+  set
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+/* CONFIGURACIÓN FIREBASE - mantén estas credenciales en el cliente solo si así lo tenías */
 const firebaseConfig = {
   apiKey: "AIzaSyCdACTc1qQAFWDbkxnBnW58opthZgNytAs",
   authDomain: "login07540.firebaseapp.com",
@@ -135,43 +274,132 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getDatabase(app);
 
+/* Elementos del DOM */
 const email = document.getElementById("email");
 const password = document.getElementById("password");
 const msg = document.getElementById("authMsg");
+const contenido = document.getElementById("contenido");
+const loginSection = document.getElementById("loginSection");
 
+/* Toggle mostrar/ocultar contraseña */
+const toggleBtn = document.getElementById("togglePassword");
+toggleBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  const type = password.type === "password" ? "text" : "password";
+  password.type = type;
+  // Cambio de icono, accesible
+  toggleBtn.textContent = type === "password" ? "👁️" : "🙈";
+  toggleBtn.setAttribute("aria-pressed", type === "text");
+});
+
+/* Función para guardar registro en Realtime Database bajo 'registros' */
+async function guardarRegistro(datos){
+  try {
+    const registrosRef = ref(db, 'registros');
+    await push(registrosRef, datos);
+  } catch (err) {
+    console.error("Error guardando registro:", err);
+  }
+}
+
+/* Registro con email y contraseña */
 document.getElementById("registerBtn").onclick = async () => {
+  msg.textContent = "";
+  if (!email.value || !password.value) {
+    msg.textContent = "Por favor completa correo y contraseña.";
+    return;
+  }
   try{
-    await createUserWithEmailAndPassword(auth,email.value,password.value);
-    msg.textContent = "✅ Correo registrado, ahora inicia sesión";
+    const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
+    const user = userCredential.user;
+    // Guardar en "registros"
+    await guardarRegistro({
+      uid: user.uid || null,
+      email: user.email || email.value,
+      provider: "password",
+      createdAt: Date.now()
+    });
+    msg.textContent = "✅ Correo registrado correctamente. Ya puedes iniciar sesión.";
   }catch(e){
     if(e.code === "auth/email-already-in-use"){
-      msg.textContent = "⚠️ Correo ya registrado, inicia sesión";
-    }else{
-      msg.textContent = e.message;
+      msg.textContent = "⚠️ Correo ya registrado, intenta iniciar sesión.";
+    } else if (e.code === "auth/invalid-email") {
+      msg.textContent = "⚠️ Formato de correo inválido.";
+    } else if (e.code === "auth/weak-password") {
+      msg.textContent = "⚠️ Contraseña débil. Usa al menos 6 caracteres.";
+    } else {
+      msg.textContent = e.message || "Error al registrar.";
     }
   }
 };
 
+/* Inicio de sesión con email */
 document.getElementById("loginBtn").onclick = async () => {
+  msg.textContent = "";
+  if (!email.value || !password.value) {
+    msg.textContent = "Completa correo y contraseña para iniciar sesión.";
+    return;
+  }
   try{
-    await signInWithEmailAndPassword(auth,email.value,password.value);
-    document.getElementById("loginSection").style.display="none";
-    document.getElementById("contenido").classList.remove("hidden");
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+    loginSection.style.display = "none";
+    contenido.classList.remove("hidden");
+    msg.textContent = "";
   }catch(e){
     msg.textContent = "❌ Correo no registrado o contraseña incorrecta";
+    console.error(e);
   }
 };
 
+/* Inicio con Google (popup) y guardado en registros */
 document.getElementById("googleBtn").onclick = async () => {
+  msg.textContent = "";
   const provider = new GoogleAuthProvider();
-  await signInWithPopup(auth,provider);
-  document.getElementById("loginSection").style.display="none";
-  document.getElementById("contenido").classList.remove("hidden");
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+    // Guardar entrada en 'registros' para los inicios por Google (puede ayudar para auditoría)
+    try {
+      await guardarRegistro({
+        uid: user.uid || null,
+        email: user.email || null,
+        provider: "google",
+        createdAt: Date.now()
+      });
+    } catch(e) {
+      console.error("No se pudo guardar registro de Google:", e);
+    }
+    loginSection.style.display = "none";
+    contenido.classList.remove("hidden");
+  } catch (e) {
+    console.error("Error en signInWithPopup:", e);
+    // Mensajes útiles para el usuario
+    if (e.code === "auth/popup-blocked") {
+      msg.textContent = "El navegador bloqueó la ventana emergente para Google. Permite popups e inténtalo de nuevo.";
+    } else if (e.code === "auth/popup-closed-by-user") {
+      msg.textContent = "Ventana de Google cerrada. Inténtalo de nuevo.";
+    } else {
+      msg.textContent = "Error al iniciar sesión con Google. Revisa la consola para más detalles.";
+    }
+  }
 };
+
+/* Opcional: detectar si ya hay usuario autenticado al cargar (persistencia) */
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // Usuario ya autenticado: mostrar contenido
+    loginSection.style.display = "none";
+    contenido.classList.remove("hidden");
+  } else {
+    // Mantener formulario visible
+    loginSection.style.display = "";
+    contenido.classList.add("hidden");
+  }
+});
 </script>
 
 </body>
 </html>
-  
-      
