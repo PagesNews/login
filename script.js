@@ -1,7 +1,7 @@
 console.log("JS conectado correctamente");
 
 // 1. Capturamos el botón
-const btnRegister = document.getElementById("btnRegistro");
+const btnRegister = document.getElementById("btnRegistrarme");
 
 // 2. Verificamos que exista
 if (btnRegister) {
