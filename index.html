@@ -6,34 +6,22 @@
 
 <style>
 body{
-  font-family: Arial, sans-serif;
+  font-family:Arial, sans-serif;
   background:#f3f7f6;
   color:#2e3d38;
-  margin:0;
-}
-header{
-  background:#cfe7df;
-  padding:40px;
-  text-align:center;
 }
 section{
-  max-width:1100px;
-  margin:auto;
-  padding:40px 20px;
-}
-.card{
-  background:#fff;
+  max-width:400px;
+  margin:60px auto;
+  background:white;
   padding:30px;
-  border-radius:16px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
-  margin-bottom:40px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
 }
 input,button{
   width:100%;
-  padding:14px;
-  margin-top:12px;
-  border-radius:8px;
-  border:1px solid #ccc;
+  padding:12px;
+  margin-top:10px;
 }
 button{
   background:#6bb9a7;
@@ -43,61 +31,33 @@ button{
 }
 button:hover{background:#5aa393}
 hr{margin:20px 0}
-.hidden{display:none}
+#contenido{display:none}
 </style>
-</head>
 
+</head>
 <body>
 
-<header>
-<h1>Panleucopenia Felina 🐾</h1>
-<p>Información veterinaria seria y prevención responsable</p>
-</header>
+<section id="loginBox">
+  <h2>Acceso</h2>
 
-<!-- LOGIN SIEMPRE VISIBLE -->
-<section class="card" style="max-width:420px">
-<h2>Acceso</h2>
+  <input id="email" type="email" placeholder="Correo">
+  <input id="password" type="password" placeholder="Contraseña">
 
-<input id="email" type="email" placeholder="Correo electrónico">
-<input id="password" type="password" placeholder="Contraseña">
+  <button id="registerBtn">Registrarme</button>
+  <button id="loginBtn">Iniciar sesión</button>
 
-<button id="registerBtn">Registrarme</button>
-<button id="loginBtn">Iniciar sesión</button>
+  <hr>
 
-<hr>
+  <button id="googleBtn">Continuar con Google</button>
 
-<button id="googleBtn">Continuar con Google</button>
-
-<p id="authMsg"></p>
+  <p id="msg"></p>
 </section>
 
-<!-- CONTENIDO -->
-<section id="contenido" class="hidden">
-
-<div class="card">
-<h2>¿Qué es la Panleucopenia Felina?</h2>
-<p>
-La panleucopenia felina es una enfermedad viral extremadamente grave causada por
-el parvovirus felino. Afecta principalmente a gatitos y gatos no vacunados,
-provocando una caída drástica de glóbulos blancos.
-</p>
-<p>
-Su mortalidad puede ser alta si no se detecta a tiempo.
-</p>
-</div>
-
-<div class="card">
-<h2>Prevención</h2>
-<p>
-La vacunación temprana y completa es la única forma efectiva de prevención.
-Mantener ambientes desinfectados y evitar el contacto con gatos infectados
-reduce drásticamente el riesgo.
-</p>
-</div>
-
+<section id="contenido">
+  <h2>Contenido privado</h2>
+  <p>Ya estás logueado correctamente ✅</p>
 </section>
 
-<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
@@ -106,17 +66,17 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  fetchSignInMethodsForEmail,
   onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
 import {
   getFirestore,
   doc,
   setDoc,
+  getDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyCdACTc1qQAFWDbkxnBnW58opthZgNytAs",
   authDomain: "login07540.firebaseapp.com",
@@ -126,71 +86,82 @@ const firebaseConfig = {
   appId: "1:729426958528:web:a2cc1a3aba1997e11f3525"
 };
 
-// INIT
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// ELEMENTOS
 const email = document.getElementById("email");
 const password = document.getElementById("password");
-const msg = document.getElementById("authMsg");
-const contenido = document.getElementById("contenido");
+const msg = document.getElementById("msg");
 
-// REGISTRO + FIRESTORE
+/* REGISTRAR */
 registerBtn.onclick = async () => {
   try {
-    const cred = await createUserWithEmailAndPassword(
-      auth,
-      email.value,
-      password.value
-    );
+    const methods = await fetchSignInMethodsForEmail(auth, email.value);
+    if (methods.length > 0) {
+      msg.textContent = "⚠️ Correo ya registrado, inicia sesión";
+      return;
+    }
 
-    // 👉 GUARDAR EN DATABASE
+    const cred = await createUserWithEmailAndPassword(auth, email.value, password.value);
+
     await setDoc(doc(db, "usuarios", cred.user.uid), {
       email: cred.user.email,
-      fechaRegistro: serverTimestamp(),
-      proveedor: "email"
+      proveedor: "password",
+      fecha: serverTimestamp()
     });
 
-    msg.textContent = "✅ Usuario registrado y guardado en la base de datos";
-    contenido.classList.remove("hidden");
+    msg.textContent = "✅ Correo registrado correctamente";
 
   } catch (e) {
     msg.textContent = e.message;
   }
 };
 
-// LOGIN
+/* LOGIN */
 loginBtn.onclick = async () => {
   try {
+    const methods = await fetchSignInMethodsForEmail(auth, email.value);
+    if (methods.length === 0) {
+      msg.textContent = "❌ Correo no registrado, regístrate primero";
+      return;
+    }
+
     await signInWithEmailAndPassword(auth, email.value, password.value);
     msg.textContent = "✅ Sesión iniciada";
-    contenido.classList.remove("hidden");
+
   } catch (e) {
     msg.textContent = e.message;
   }
 };
 
-// GOOGLE
+/* GOOGLE */
 googleBtn.onclick = async () => {
-  const provider = new GoogleAuthProvider();
-  const res = await signInWithPopup(auth, provider);
+  try {
+    const provider = new GoogleAuthProvider();
+    const result = await signInWithPopup(auth, provider);
 
-  // GUARDAR GOOGLE
-  await setDoc(doc(db, "usuarios", res.user.uid), {
-    email: res.user.email,
-    fechaRegistro: serverTimestamp(),
-    proveedor: "google"
-  });
+    const ref = doc(db, "usuarios", result.user.uid);
+    const snap = await getDoc(ref);
 
-  contenido.classList.remove("hidden");
+    if (!snap.exists()) {
+      await setDoc(ref, {
+        email: result.user.email,
+        proveedor: "google",
+        fecha: serverTimestamp()
+      });
+    }
+
+  } catch (e) {
+    msg.textContent = e.message;
+  }
 };
 
-// SESIÓN
+/* SESIÓN */
 onAuthStateChanged(auth, user => {
   if (user) {
-    contenido.classList.remove("hidden");
+    document.getElementById("loginBox").style.display = "none";
+    document.getElementById("contenido").style.display = "block";
   }
 });
 </script>
