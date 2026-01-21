@@ -7,55 +7,54 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{
-  font-family:Segoe UI, Arial, sans-serif;
+  font-family:Arial, sans-serif;
   background:#f3f7f6;
   color:#2e3d38;
-  line-height:1.7;
-  cursor:url("https://cur.cursors-4u.net/animals/ani-12/ani1135.cur"), auto;
+  line-height:1.8;
 }
 header{
   background:#cfe7df;
-  padding:60px 20px;
+  padding:50px 20px;
   text-align:center;
 }
-section{max-width:1100px;margin:auto;padding:40px 20px}
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:40px 20px;
+}
 .card{
-  background:#fff;
-  padding:30px;
-  border-radius:20px;
+  background:white;
+  padding:35px;
+  border-radius:18px;
   margin-bottom:40px;
   box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
   gap:30px;
   align-items:center;
 }
-img{width:100%;border-radius:15px}
-h2{color:#4a7c6a;margin-bottom:10px}
+img{
+  width:100%;
+  border-radius:15px;
+}
+h2{color:#4a7c6a;margin-bottom:15px}
 button,input{
   width:100%;
-  padding:12px;
-  margin-top:10px;
+  padding:14px;
+  margin-top:12px;
   border-radius:8px;
   border:1px solid #ccc;
 }
 button{
   background:#6bb9a7;
-  color:#fff;
+  color:white;
+  border:none;
   cursor:pointer;
 }
 button:hover{background:#5aa393}
-.chat{
-  background:#eef4f2;
-  padding:12px;
-  border-radius:10px;
-  max-height:200px;
-  overflow:auto;
-  margin-bottom:10px;
-}
-.admin{display:none;border:2px dashed #c77;background:#fff5f5}
+.hidden{display:none}
 </style>
 </head>
 
@@ -63,16 +62,42 @@ button:hover{background:#5aa393}
 
 <header>
 <h1>Panleucopenia Felina 🐾</h1>
-<p>Información clara para proteger a los gatos</p>
+<p>Información veterinaria clara para proteger a los gatos</p>
 </header>
 
-<section>
+<!-- LOGIN AL INICIO -->
+<section id="loginSection" class="card" style="max-width:400px">
+<h2>Acceso a información completa</h2>
+<p>
+Para acceder al contenido completo sobre prevención, síntomas avanzados y
+recomendaciones profesionales, debes iniciar sesión.
+</p>
+
+<input id="email" type="email" placeholder="Correo electrónico">
+<input id="password" type="password" placeholder="Contraseña">
+
+<button id="registerBtn">Registrarme</button>
+<button id="loginBtn">Iniciar sesión</button>
+<button id="googleBtn">Continuar con Google</button>
+
+<p id="authMsg"></p>
+</section>
+
+<!-- CONTENIDO (OCULTO HASTA LOGIN) -->
+<section id="contenido" class="hidden">
 
 <div class="card grid">
 <div>
-<h2>¿Qué es?</h2>
-<p>La panleucopenia felina es una enfermedad viral grave y altamente contagiosa,
-especialmente peligrosa en gatos no vacunados.</p>
+<h2>¿Qué es la Panleucopenia Felina?</h2>
+<p>
+La panleucopenia felina es una enfermedad viral grave causada por el parvovirus felino.
+Afecta principalmente a gatitos y gatos no vacunados, atacando el sistema inmunológico,
+el tracto digestivo y la médula ósea.
+</p>
+<p>
+Es considerada una de las enfermedades más peligrosas en medicina veterinaria felina,
+debido a su alta tasa de mortalidad cuando no se trata a tiempo.
+</p>
 </div>
 <img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80">
 </div>
@@ -80,51 +105,40 @@ especialmente peligrosa en gatos no vacunados.</p>
 <div class="card grid">
 <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=900&q=80">
 <div>
-<h2>Síntomas</h2>
+<h2>Síntomas clínicos</h2>
+<p>
+Los síntomas pueden aparecer de forma repentina y empeorar rápidamente:
+</p>
 <ul>
-<li>Fiebre</li>
-<li>Vómitos</li>
-<li>Diarrea</li>
-<li>Letargo</li>
-<li>Deshidratación</li>
+<li>Fiebre alta o temperatura corporal baja</li>
+<li>Vómitos frecuentes</li>
+<li>Diarrea severa</li>
+<li>Deshidratación extrema</li>
+<li>Debilidad y aislamiento</li>
+<li>Pérdida total del apetito</li>
 </ul>
 </div>
 </div>
 
-<div class="card">
-<h2>Asistente informativo</h2>
-<div class="chat" id="chat"></div>
-<input id="pregunta" placeholder="Ej: ¿Es mortal?">
-<button onclick="preguntar()">Preguntar</button>
+<div class="card grid">
+<div>
+<h2>Prevención y vacunación</h2>
+<p>
+La vacunación es la herramienta más efectiva para prevenir la panleucopenia.
+Un esquema de vacunación adecuado desde las primeras semanas de vida puede
+prevenir completamente la enfermedad.
+</p>
+<p>
+También es fundamental mantener una correcta higiene del entorno y evitar
+el contacto con gatos infectados.
+</p>
 </div>
-
-<div class="card">
-<h2>Registro campaña 🐱</h2>
-<form id="emailForm">
-<input id="emailInput" type="email" placeholder="tucorreo@gmail.com" required>
-<button type="submit">Registrarme</button>
-</form>
-<p id="mensaje"></p>
-</div>
-
-<div class="card">
-<h2>Acceso</h2>
-<input id="authEmail" type="email" placeholder="Correo">
-<input id="authPassword" type="password" placeholder="Contraseña">
-<button id="registerBtn">Registrarse</button>
-<button id="loginBtn">Iniciar sesión</button>
-<button id="googleBtn">Continuar con Google</button>
-<p id="authMsg"></p>
-</div>
-
-<div class="card admin" id="adminPanel">
-<h2>Correos registrados</h2>
-<ul id="listaCorreos"></ul>
+<img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=900&q=80">
 </div>
 
 </section>
 
-<!-- 🔥 ÚNICO SCRIPT (NO DUPLICADO) -->
+<!-- FIREBASE AUTH (ÚNICO SCRIPT) -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
@@ -132,15 +146,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCdACTc1qQAFWDbkxnBnW58opthZgNytAs",
@@ -153,53 +161,40 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
 
-/* REGISTRO CAMPAÑA */
-document.getElementById("emailForm").addEventListener("submit", async e=>{
-  e.preventDefault();
-  const email = emailInput.value;
-  await addDoc(collection(db,"registros"),{
-    email,
-    fecha:serverTimestamp()
-  });
-  mensaje.textContent="✅ Registro exitoso";
-});
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const authMsg = document.getElementById("authMsg");
 
-/* AUTH */
-registerBtn.onclick=()=>createUserWithEmailAndPassword(auth,authEmail.value,authPassword.value);
-loginBtn.onclick=()=>signInWithEmailAndPassword(auth,authEmail.value,authPassword.value);
-googleBtn.onclick=()=>signInWithPopup(auth,new GoogleAuthProvider());
+registerBtn.onclick = async () => {
+  try {
+    await createUserWithEmailAndPassword(auth, email.value, password.value);
+    authMsg.textContent = "Registro exitoso";
+  } catch (e) {
+    authMsg.textContent = e.message;
+  }
+};
 
-/* ADMIN CTRL+A */
-document.addEventListener("keydown", async e=>{
-  if(e.ctrlKey && e.key==="a"){
-    e.preventDefault();
-    adminPanel.style.display="block";
-    const snap=await getDocs(collection(db,"registros"));
-    listaCorreos.innerHTML="";
-    snap.forEach(d=>{
-      const li=document.createElement("li");
-      li.textContent=d.data().email;
-      listaCorreos.appendChild(li);
-    });
+loginBtn.onclick = async () => {
+  try {
+    await signInWithEmailAndPassword(auth, email.value, password.value);
+    authMsg.textContent = "Sesión iniciada";
+  } catch (e) {
+    authMsg.textContent = e.message;
+  }
+};
+
+googleBtn.onclick = async () => {
+  const provider = new GoogleAuthProvider();
+  await signInWithPopup(auth, provider);
+};
+
+onAuthStateChanged(auth, user => {
+  if (user) {
+    document.getElementById("loginSection").style.display = "none";
+    document.getElementById("contenido").classList.remove("hidden");
   }
 });
-</script>
-
-<script>
-const respuestas={
-  mortal:"Puede ser mortal sin tratamiento.",
-  vacuna:"La vacuna es la mejor prevención.",
-  humanos:"No se contagia a humanos."
-};
-function preguntar(){
-  const p=pregunta.value.toLowerCase();
-  chat.innerHTML+=`<div><b>Tú:</b> ${p}</div>`;
-  let r="Consulta a tu veterinario.";
-  for(let k in respuestas) if(p.includes(k)) r=respuestas[k];
-  chat.innerHTML+=`<div><b>Asistente:</b> ${r}</div>`;
-}
 </script>
 
 </body>
