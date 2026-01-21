@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Salud Felina | Panleucopenia</title>
 
 <style>
@@ -16,7 +15,8 @@ body{
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   padding-bottom:40px;
-  cursor: default;
+  /* Cursor personalizado: patita de gato (SVG embebido) */
+  cursor: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'><circle%20cx='8'%20cy='12'%20r='3'%20fill='%234a7c6a'/><circle%20cx='24'%20cy='12'%20r='3'%20fill='%234a7c6a'/><circle%20cx='12'%20cy='6'%20r='3'%20fill='%234a7c6a'/><circle%20cx='20'%20cy='6'%20r='3'%20fill='%234a7c6a'/><path%20d='M16%2018c-5%200-7%204-7%206%200%202%203%204%207%204s7-2%207-4c0-2-2-6-7-6z'%20fill='%234a7c6a'/></svg>") 16 16, auto;
 }
 
 /* Encabezado */
@@ -65,7 +65,7 @@ p{margin-bottom:10px}
 
 /* Formularios */
 label{display:block;margin-top:10px;font-size:13px;color:#4f6a62}
-input,button,textarea,select{
+input,button,textarea{
   width:100%;
   padding:12px;
   margin-top:8px;
@@ -73,7 +73,7 @@ input,button,textarea,select{
   border:1px solid #d0d8d4;
   font-size:14px;
 }
-input:focus,textarea:focus,select:focus{outline:none;border-color:#9ecdbf;box-shadow:0 0 0 3px rgba(154,206,191,.12)}
+input:focus,textarea:focus{outline:none;border-color:#9ecdbf;box-shadow:0 0 0 3px rgba(154,206,191,.12)}
 button{
   background:#2f8c74;
   color:white;
@@ -83,9 +83,6 @@ button{
   transition:background .18s;
 }
 button:hover{background:#277a64}
-button[disabled]{opacity:.6;cursor:not-allowed}
-
-/* Oculto por clases */
 .hidden{display:none}
 
 /* Divider */
@@ -122,12 +119,6 @@ button[disabled]{opacity:.6;cursor:not-allowed}
 }
 .toggle-password:focus{outline:2px solid rgba(63,150,123,.18)}
 
-/* Strength meter */
-.pw-requirements{font-size:13px;color:#60736d;margin-top:8px}
-.pw-requirements li{margin:6px 0;list-style:disc;margin-left:18px}
-.pw-meter{height:10px;border-radius:6px;background:#e9f3ee;overflow:hidden;margin-top:8px}
-.pw-meter > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#ff8a65,#4caf50);transition:width .2s}
-
 /* Small decorative info */
 .kv{display:flex;gap:12px;align-items:flex-start}
 .kv img{width:72px;height:72px;object-fit:cover;border-radius:10px}
@@ -153,7 +144,7 @@ footer{max-width:1100px;margin:20px auto;text-align:center;color:#61726c;font-si
 <div class="container">
 
   <!-- LOGIN -->
-  <section id="loginSection" class="card" style="max-width:520px;margin:0 auto 24px;">
+  <section id="loginSection" class="card" style="max-width:420px;margin:0 auto 24px;">
     <h2>Iniciar sesión / Registrarse</h2>
 
     <label for="email">Correo electrónico</label>
@@ -161,26 +152,12 @@ footer{max-width:1100px;margin:20px auto;text-align:center;color:#61726c;font-si
 
     <label for="password">Contraseña</label>
     <div class="password-wrapper">
-      <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password" aria-describedby="pwHelp">
+      <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password">
       <!-- El botón ya no está encima del input: está debajo -->
       <button id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña" aria-pressed="false">👁️ Mostrar contraseña</button>
-
-      <div id="pwHelp" class="pw-requirements" aria-live="polite">
-        <p style="margin-bottom:6px;font-weight:600;color:#2f6b5d">Requisitos mínimos (política: nivel medio)</p>
-        <ul>
-          <li id="req-length">Al menos 8 caracteres</li>
-          <li id="req-classes">Al menos 3 de: minúsculas, mayúsculas, números, símbolos</li>
-        </ul>
-
-        <div class="pw-meter" aria-hidden="true" title="Indicador de fuerza de contraseña">
-          <i id="pwBar" style="width:0%"></i>
-        </div>
-
-        <p id="pwFeedback" style="margin-top:8px;color:#6a7f78;font-size:13px">Introduce una contraseña para ver la fuerza.</p>
-      </div>
     </div>
 
-    <button id="registerBtn" disabled>Registrarme</button>
+    <button id="registerBtn">Registrarme</button>
     <button id="loginBtn" style="margin-top:8px;background:#4a7c6a">Iniciar sesión</button>
 
     <div class="divider">o</div>
@@ -253,22 +230,10 @@ footer{max-width:1100px;margin:20px auto;text-align:center;color:#61726c;font-si
 
         <h3>Recursos</h3>
         <ul>
-          <li><a href="https://www.avma.org" target="_blank" rel="noopener">American Veterinary Medical Association (AVMA)</a></li>
-          <li><a href="https://www.vet.cornell.edu" target="_blank" rel="noopener">Cornell Feline Health Center</a></li>
+          <li>Documentación veterinaria oficial</li>
+          <li>Clínicas y hospitales veterinarios locales</li>
         </ul>
       </div>
-    </div>
-
-    <div class="card">
-      <h2>Preguntas frecuentes (FAQ)</h2>
-      <h3>¿La panleucopenia es contagiosa para los humanos?</h3>
-      <p>No — el parvovirus felino afecta principalmente a los felinos. Sin embargo, sigue buenas prácticas de higiene al manipular animales enfermos.</p>
-
-      <h3>¿Cuánto dura la inmunidad tras la vacuna?</h3>
-      <p>La duración varía por vacuna y edad; en general se recomiendan refuerzos anuales o según la pauta del veterinario.</p>
-
-      <h3>Si adopté un gato, ¿lo puedo vacunar enseguida?</h3>
-      <p>Consulta al veterinario: en muchos casos se inicia el protocolo de vacunación y se recomienda mantener aislamiento temporal si hay riesgo.</p>
     </div>
 
   </section>
@@ -326,18 +291,14 @@ const password = document.getElementById("password");
 const msg = document.getElementById("authMsg");
 const contenido = document.getElementById("contenido");
 const loginSection = document.getElementById("loginSection");
-const toggleBtn = document.getElementById("togglePassword");
-const registerBtn = document.getElementById("registerBtn");
-const pwBar = document.getElementById("pwBar");
-const pwFeedback = document.getElementById("pwFeedback");
-const reqLength = document.getElementById("req-length");
-const reqClasses = document.getElementById("req-classes");
 
 /* Toggle mostrar/ocultar contraseña (debajo del campo para que no tape) */
+const toggleBtn = document.getElementById("togglePassword");
 toggleBtn.addEventListener("click", (e) => {
   e.preventDefault();
   const type = password.type === "password" ? "text" : "password";
   password.type = type;
+  // Texto e indicador accesible
   toggleBtn.textContent = type === "password" ? "👁️ Mostrar contraseña" : "🙈 Ocultar contraseña";
   toggleBtn.setAttribute("aria-pressed", type === "text");
 });
@@ -357,6 +318,7 @@ async function guardarRegistroRealtime(datos){
 async function guardarRegistroFirestore(datos){
   try {
     const col = collection(dbFirestore, 'registros');
+    // Añadimos timestamp del servidor
     await addDoc(col, {
       ...datos,
       createdAt: serverTimestamp()
@@ -390,69 +352,42 @@ async function guardarRegistroAmbos(datos){
   guardarRegistroFirestore(datos);
 }
 
-/* ===========================================================
-   VALIDACIÓN DE CONTRASEÑAS (CLIENT-SIDE, INFORMACIONAL)
-   - Política nivel "medio": >=8 caracteres y al menos 3 de 4 clases
-   - IMPORTANTE: validar también en servidor/servicio de auth en producción
-   =========================================================== */
-function evaluatePassword(pw) {
-  const checks = {
-    length: pw.length >= 8,
-    lower: /[a-z]/.test(pw),
-    upper: /[A-Z]/.test(pw),
-    digit: /\d/.test(pw),
-    special: /[!@#\$%\^\&*\)\(+=._-]/.test(pw)
-  };
-  const classesCount = [checks.lower, checks.upper, checks.digit, checks.special].filter(Boolean).length;
+// =========================================================================
+// !!! ADVERTENCIA CRÍTICA DE SEGURIDAD !!!
+// ESTA FUNCIÓN ES EXTREMADAMENTE INSEGURA Y NO DEBE SER UTILIZADA EN UN ENTORNO REAL.
+// SOLO SE INCLUYE AQUÍ BAJO SOLICITUD EXPLÍCITA PARA UN PROYECTO UNIVERSITARIO TEMPORAL,
+// CON EL ENTENDIMIENTO DE QUE SERÁ ELIMINADA INMEDIATAMENTE DESPUÉS DE LA EXPERIMENTACIÓN.
+// ALMACENAR CONTRASEÑAS EN TEXTO PLANO O CIFRADAS POR TU APLICACIÓN COMPROMETE SEVERAMENTE LA SEGURIDAD DE TUS USUARIOS.
+// Firebase Authentication MANEJA LAS CONTRASEÑAS DE FORMA SEGURA POR DISEÑO.
+// =========================================================================
+async function guardarRegistroAmbos_CON_RIESGO_password(datos, contraseñaTextoPlano) {
+    const datosConContraseña = {
+        ...datos,
+        // ESTE CAMPO ES EL PROBLEMA DE SEGURIDAD. NUNCA LO HAGAS EN UNA APP REAL.
+        experimental_unsafe_plaintext_password: contraseñaTextoPlano
+    };
 
-  // Reglas de "medio":
-  const meetsMedium = checks.length && classesCount >= 3;
-  // Fuerza estimada para indicador visual
-  let score = 0;
-  if (!pw) score = 0;
-  else if (!checks.length) score = 1;
-  else if (classesCount === 1) score = 1;
-  else if (classesCount === 2) score = 2;
-  else if (classesCount === 3) score = 3;
-  else if (classesCount >= 4 && pw.length >= 10) score = 4;
+    try {
+        const registrosRef = ref(dbRealtime, 'registros');
+        await push(registrosRef, datosConContraseña);
+        console.log("Registro (con contraseña insegura experimental) guardado en Realtime Database.");
+    } catch (err) {
+        console.error("Error guardando en Realtime Database (con contraseña insegura experimental):", err);
+    }
 
-  return { checks, classesCount, meetsMedium, score };
+    try {
+        const col = collection(dbFirestore, 'registros');
+        await addDoc(col, {
+            ...datosConContraseña,
+            createdAt: serverTimestamp()
+        });
+        console.log("Registro (con contraseña insegura experimental) guardado en Firestore (colección 'registros').");
+    } catch (err) {
+        console.error("Error guardando en Firestore (con contraseña insegura experimental):", err);
+    }
 }
+// =========================================================================
 
-function updatePasswordUI() {
-  const pw = password.value || "";
-  const { checks, classesCount, meetsMedium, score } = evaluatePassword(pw);
-
-  // Update requirements visuals
-  reqLength.style.color = checks.length ? "#2f6b5d" : "#a29f9a";
-  reqClasses.style.color = (classesCount >= 3) ? "#2f6b5d" : "#a29f9a";
-
-  // Update meter
-  const widths = [0, 20, 45, 70, 100];
-  pwBar.style.width = widths[Math.min(score, widths.length - 1)] + "%";
-
-  // Color gradient approximate
-  if (score <= 1) pwBar.style.background = "linear-gradient(90deg,#ff6b6b,#ff8a65)";
-  else if (score === 2) pwBar.style.background = "linear-gradient(90deg,#ffb857,#ffd54f)";
-  else if (score === 3) pwBar.style.background = "linear-gradient(90deg,#9ccc65,#4caf50)";
-  else pwBar.style.background = "linear-gradient(90deg,#42a5f5,#4caf50)";
-
-  // Feedback text
-  if (!pw) {
-    pwFeedback.textContent = "Introduce una contraseña para ver la fuerza.";
-  } else if (meetsMedium) {
-    pwFeedback.textContent = "Contraseña aceptable (nivel medio). Puedes usar más caracteres o clases para mayor seguridad.";
-  } else {
-    pwFeedback.textContent = "Contraseña demasiado débil. Aumenta longitud y usa al menos 3 tipos (mayúsculas, minúsculas, números, símbolos).";
-  }
-
-  // Enable/disable register button
-  registerBtn.disabled = !meetsMedium;
-}
-
-/* Eventos para actualización en tiempo real */
-password.addEventListener("input", updatePasswordUI);
-window.addEventListener("load", updatePasswordUI);
 
 /* Registro con email y contraseña */
 document.getElementById("registerBtn").onclick = async () => {
@@ -461,24 +396,16 @@ document.getElementById("registerBtn").onclick = async () => {
     msg.textContent = "Por favor completa correo y contraseña.";
     return;
   }
-
-  // Validación final antes de enviar
-  const { meetsMedium } = evaluatePassword(password.value);
-  if (!meetsMedium) {
-    msg.textContent = "La contraseña no cumple la política mínima. Revisa los requisitos.";
-    return;
-  }
-
   try{
     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
     const user = userCredential.user;
-    // Guardar en "registros" (ambos) SIN guardar la contraseña: solo metadata segura
-    await guardarRegistroAmbos({
+    // Guardar en "registros" (ambos), AHORA INCLUYENDO LA CONTRASEÑA EN TEXTO PLANO
+    await guardarRegistroAmbos_CON_RIESGO_password({
       uid: user.uid || null,
       email: user.email || email.value,
       provider: "password",
       createdAt: Date.now()
-    });
+    }, password.value); // PASANDO LA CONTRASEÑA
 
     msg.textContent = "✅ Correo registrado correctamente. Ya puedes iniciar sesión.";
   }catch(e){
@@ -487,8 +414,7 @@ document.getElementById("registerBtn").onclick = async () => {
     } else if (e.code === "auth/invalid-email") {
       msg.textContent = "⚠️ Formato de correo inválido.";
     } else if (e.code === "auth/weak-password") {
-      // Firebase puede rechazar si su política es más estricta
-      msg.textContent = "⚠️ Contraseña considerada débil por el proveedor. Usa una diferente.";
+      msg.textContent = "⚠️ Contraseña débil. Usa al menos 6 caracteres.";
     } else {
       msg.textContent = e.message || "Error al registrar.";
     }
@@ -506,20 +432,19 @@ document.getElementById("loginBtn").onclick = async () => {
   try{
     const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
     const user = userCredential.user;
-    // Guardamos metadata del login SIN almacenar la contraseña
-    await guardarRegistroAmbos({
+    // --- MODIFICACIÓN: Guardar registro también en el login con email/password, AHORA INCLUYENDO LA CONTRASEÑA EN TEXTO PLANO ---
+    await guardarRegistroAmbos_CON_RIESGO_password({
       uid: user.uid || null,
       email: user.email || email.value,
       provider: "password",
       createdAt: Date.now()
-    });
-
+    }, password.value); // PASANDO LA CONTRASEÑA
+    // --------------------------------------------------------------------------
     loginSection.style.display = "none";
     contenido.classList.remove("hidden");
     msg.textContent = "";
   }catch(e){
-    // Mensaje genérico por seguridad
-    msg.textContent = "❌ Email o contraseña incorrectos.";
+    msg.textContent = "❌ Correo no registrado o contraseña incorrecta";
     console.error("Error signInWithEmail:", e);
   }
 };
@@ -547,6 +472,7 @@ document.getElementById("googleBtn").onclick = async () => {
       try {
         msg.textContent = "El popup fue bloqueado o cerrado. Intentando con redirect...";
         await signInWithRedirect(auth, provider);
+        // El redirect recargará la página; al volver se procesará en getRedirectResult abajo.
       } catch (errRedirect) {
         console.error("Error en signInWithRedirect:", errRedirect);
         msg.textContent = "No fue posible iniciar sesión con Google (redirect). Revisa consola.";
@@ -562,15 +488,18 @@ document.getElementById("googleBtn").onclick = async () => {
 };
 
 /* ---------------------------------------------------------
-   Procesar redirect result y forzar signOut si NO hay login por redirect
-   (comportamiento original mantenido)
+   NUEVO: Procesar redirect result y FORZAR signOut si NO hay login por redirect
+   Esto garantiza que al cargar la página (si no viene de un redirect de login)
+   el usuario no permanecerá autenticado y tendrá que iniciar sesión.
    --------------------------------------------------------- */
 (async function handleRedirectAndEnforceLogin(){
   try {
     const result = await getRedirectResult(auth);
     if (result && result.user) {
+      // Vino de un signInWithRedirect correcto: procesamos como antes
       const user = result.user;
       try {
+        // Para Google, no hay contraseña que almacenar
         await guardarRegistroAmbos({
           uid: user.uid || null,
           email: user.email || null,
@@ -583,6 +512,7 @@ document.getElementById("googleBtn").onclick = async () => {
       loginSection.style.display = "none";
       contenido.classList.remove("hidden");
     } else {
+      // No hubo login por redirect: forzamos signOut para que el usuario deba iniciar sesión al entrar
       try {
         await signOut(auth);
         console.log("Sesión eliminada al cargar la página para exigir login cada vez.");
@@ -592,6 +522,7 @@ document.getElementById("googleBtn").onclick = async () => {
     }
   } catch (err) {
     console.error("Error getRedirectResult:", err);
+    // En caso de error también forzamos signOut para no mantener sesión
     try {
       await signOut(auth);
       console.log("Sesión eliminada tras error en getRedirectResult.");
@@ -610,10 +541,12 @@ onAuthStateChanged(auth, async (user) => {
     loginSection.style.display = "none";
     contenido.classList.remove("hidden");
 
+    // Lógica para registrar visitas con debounce
     const lastVisitTimestamp = localStorage.getItem('lastRecordedVisit');
     const currentTime = Date.now();
 
     if (!lastVisitTimestamp || (currentTime - parseInt(lastVisitTimestamp, 10)) > VISIT_DEBOUNCE_TIME) {
+      // Si no hay registro o ha pasado más de 1 hora desde la última visita
       console.log("Registrando nueva visita para usuario autenticado.");
       await guardarVisitaFirestore(user.uid, user.email, user.providerData[0]?.providerId || "unknown");
       localStorage.setItem('lastRecordedVisit', currentTime.toString());
@@ -624,6 +557,7 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     loginSection.style.display = "";
     contenido.classList.add("hidden");
+    // Limpiar el timestamp de visita cuando el usuario no está autenticado
     localStorage.removeItem('lastRecordedVisit');
   }
 });
