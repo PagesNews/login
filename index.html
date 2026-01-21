@@ -4,56 +4,28 @@
 <meta charset="UTF-8">
 <title>Salud Felina | Panleucopenia</title>
 
+<!-- ================== ESTILOS ================== -->
 <style>
-/* ===================== RESET ===================== */
-*{margin:0;padding:0;box-sizing:border-box}
-
-/* ===================== BODY ===================== */
+*{box-sizing:border-box;margin:0;padding:0}
 body{
-  font-family:Arial, Helvetica, sans-serif;
+  font-family:Segoe UI,Arial;
   background:#f4f7f6;
   color:#333;
 }
-
-/* ===================== HEADER ===================== */
 header{
   background:#cfe8df;
   padding:60px 20px;
   text-align:center;
 }
-
-header h1{font-size:36px}
-header p{max-width:800px;margin:15px auto;font-size:18px}
-
-/* ===================== SECTIONS ===================== */
-section{
-  max-width:1100px;
-  margin:auto;
-  padding:40px 20px;
-}
-
+section{max-width:1100px;margin:auto;padding:40px 20px}
 .card{
-  background:white;
-  border-radius:18px;
+  background:#fff;
   padding:35px;
   margin-bottom:40px;
-  box-shadow:0 10px 25px rgba(0,0,0,.08);
+  border-radius:18px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08)
 }
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:30px;
-}
-
-.grid img{
-  width:100%;
-  max-height:320px;
-  object-fit:cover;
-  border-radius:14px;
-}
-
-/* ===================== FORMS ===================== */
+.hidden{display:none}
 input,button{
   width:100%;
   padding:14px;
@@ -61,207 +33,135 @@ input,button{
   font-size:16px;
   border-radius:10px;
 }
-
-input{border:1px solid #ccc}
 button{
-  border:none;
   background:#6bb9a7;
   color:white;
+  border:none;
   cursor:pointer;
 }
 button:hover{background:#5aa393}
-
-.success{color:green}
-.error{color:red}
-
-/* ===================== CHAT ===================== */
 .chat{
   border:1px solid #ccc;
-  border-radius:12px;
   padding:15px;
   max-height:300px;
   overflow-y:auto;
   background:#fafafa;
 }
-
-.chat div{margin-bottom:10px}
-
-/* ===================== HIDDEN ===================== */
-.hidden{display:none}
-
-/* ===================== FOOTER ===================== */
-footer{
-  background:#dcefe8;
-  padding:25px;
-  text-align:center;
-}
+.success{color:green}
+.error{color:red}
 </style>
+
+<!-- ================== FIREBASE ================== -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_PROYECTO.firebaseapp.com",
+  projectId: "TU_PROYECTO"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+/* ================== AUTH ================== */
+window.registrar = async ()=>{
+  try{
+    await createUserWithEmailAndPassword(auth,email.value,pass.value);
+    msg.textContent="Registro exitoso";
+    msg.className="success";
+  }catch(e){msg.textContent=e.message;msg.className="error";}
+}
+
+window.login = async ()=>{
+  try{
+    await signInWithEmailAndPassword(auth,email.value,pass.value);
+  }catch(e){msg.textContent=e.message;msg.className="error";}
+}
+
+window.loginGoogle = async ()=>{
+  await signInWithPopup(auth,new GoogleAuthProvider());
+}
+
+/* ================== SESIÓN ================== */
+onAuthStateChanged(auth,user=>{
+  if(user){
+    authBox.classList.add("hidden");
+    contenido.classList.remove("hidden");
+  }
+});
+
+/* ================== REGISTRO CAMPAÑA ================== */
+window.registrarCampaña = async ()=>{
+  await addDoc(collection(db,"campaign_signups"),{
+    email:auth.currentUser.email,
+    createdAt:serverTimestamp()
+  });
+  alert("Correo guardado para campañas");
+}
+
+/* ================== IA (LLAMA A BACKEND) ================== */
+window.preguntarIA = async ()=>{
+  const r = await fetch("https://TU_REGION-TU_PROYECTO.cloudfunctions.net/chatIA",{
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body:JSON.stringify({ prompt: pregunta.value })
+  });
+  const data = await r.json();
+  chat.innerHTML += `<div><b>Tú:</b> ${pregunta.value}</div>`;
+  chat.innerHTML += `<div><b>IA:</b> ${data.respuesta}</div>`;
+  pregunta.value="";
+};
+</script>
 </head>
 
 <body>
 
 <header>
-<h1>Protejamos a Nuestros Gatos 🐱</h1>
-<p>Información responsable para prevenir la panleucopenia felina.</p>
+<h1>Panleucopenia Felina 🐱</h1>
+<p>Información responsable, registro real y asistencia inteligente</p>
 </header>
 
 <section>
 
-<!-- ===================== REGISTRO ===================== -->
-<div class="card" id="authCard">
+<div class="card" id="authBox">
 <h2>Registro / Inicio de sesión</h2>
-
-<input id="authEmail" placeholder="Correo electrónico">
-<input id="authPass" type="password" placeholder="Contraseña">
-
+<input id="email" placeholder="Correo">
+<input id="pass" type="password" placeholder="Contraseña">
 <button onclick="registrar()">Registrarse</button>
 <button onclick="login()">Iniciar sesión</button>
-
-<p id="authMsg"></p>
-
-<p style="margin-top:10px;font-size:14px">
-⚠️ Login con Google/Facebook disponible en versión Firebase
-</p>
+<button onclick="loginGoogle()">Entrar con Google</button>
+<p id="msg"></p>
 </div>
 
-<!-- ===================== CONTENIDO BLOQUEADO ===================== -->
 <div class="card hidden" id="contenido">
-<h2>Información detallada</h2>
+<h2>Información avanzada</h2>
+<p>Contenido completo disponible solo para usuarios registrados.</p>
+<button onclick="registrarCampaña()">Recibir campañas de vacunación</button>
 
-<div class="grid">
-  <div>
-    <p>
-    La panleucopenia es una enfermedad viral grave que ataca el sistema
-    inmunológico de los gatos, especialmente en edades tempranas.
-    </p>
-    <ul>
-      <li>Alta mortalidad sin tratamiento</li>
-      <li>Virus resistente en el ambiente</li>
-      <li>Vacunación es clave</li>
-    </ul>
-  </div>
-  <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=900&q=80">
-</div>
-</div>
-
-<!-- ===================== ASISTENTE ===================== -->
-<div class="card hidden" id="assistantCard">
-<h2>Asistente informativo</h2>
-
+<h3>Asistente IA</h3>
 <div class="chat" id="chat"></div>
-<input id="q" placeholder="Pregunta y presiona Enter">
-</div>
-
-<!-- ===================== ADMIN ===================== -->
-<div class="card hidden" id="admin">
-<h2>Panel administrador</h2>
-<div id="listaCorreos"></div>
+<input id="pregunta" placeholder="Pregunta sobre la enfermedad">
+<button onclick="preguntarIA()">Preguntar</button>
 </div>
 
 </section>
-
-<footer>
-Proyecto educativo 🐾
-</footer>
-
-<script>
-/* ===================== UTILIDADES ===================== */
-function getUsers(){return JSON.parse(localStorage.getItem("users")||"[]")}
-function setUsers(u){localStorage.setItem("users",JSON.stringify(u))}
-
-/* ===================== REGISTRO ===================== */
-function registrar(){
-  const email=authEmail.value.trim()
-  const pass=authPass.value.trim()
-  const msg=authMsg
-
-  if(!email || !pass){
-    msg.textContent="Completa todos los campos"
-    msg.className="error"
-    return
-  }
-
-  let users=getUsers()
-  if(users.find(u=>u.email===email)){
-    msg.textContent="Usuario ya existe"
-    msg.className="error"
-    return
-  }
-
-  users.push({email,pass})
-  setUsers(users)
-
-  msg.textContent="Registro exitoso"
-  msg.className="success"
-}
-
-/* ===================== LOGIN ===================== */
-function login(){
-  const email=authEmail.value.trim()
-  const pass=authPass.value.trim()
-  const users=getUsers()
-
-  const ok=users.find(u=>u.email===email && u.pass===pass)
-  if(!ok){
-    authMsg.textContent="Credenciales incorrectas"
-    authMsg.className="error"
-    return
-  }
-
-  localStorage.setItem("session",email)
-  iniciarSesion()
-}
-
-/* ===================== SESIÓN ===================== */
-function iniciarSesion(){
-  authCard.classList.add("hidden")
-  contenido.classList.remove("hidden")
-  assistantCard.classList.remove("hidden")
-}
-
-/* ===================== ADMIN ===================== */
-document.addEventListener("keydown",e=>{
-  if(e.ctrlKey && e.shiftKey && e.key==="A"){
-    admin.classList.toggle("hidden")
-    cargarCorreos()
-  }
-})
-
-function cargarCorreos(){
-  const users=getUsers()
-  listaCorreos.innerHTML=""
-  users.forEach(u=>{
-    listaCorreos.innerHTML+=`<div>${u.email}</div>`
-  })
-}
-
-/* ===================== ASISTENTE ===================== */
-const conocimiento={
-  sintomas:"Los síntomas incluyen vómitos, diarrea, fiebre y decaimiento.",
-  vacuna:"La vacuna es la mejor prevención y debe aplicarse desde cachorro.",
-  contagio:"Se transmite por superficies, heces y contacto indirecto.",
-  cura:"No existe cura directa, pero el tratamiento temprano salva vidas."
-}
-
-q.addEventListener("keydown",e=>{
-  if(e.key==="Enter"){
-    let t=q.value.toLowerCase()
-    chat.innerHTML+=`<div><b>Tú:</b> ${t}</div>`
-    let r="Consulta a tu veterinario para casos específicos."
-    Object.keys(conocimiento).forEach(k=>{
-      if(t.includes(k)) r=conocimiento[k]
-    })
-    chat.innerHTML+=`<div><b>Asistente:</b> ${r}</div>`
-    chat.scrollTop=chat.scrollHeight
-    q.value=""
-  }
-})
-
-/* ===================== AUTO LOGIN ===================== */
-if(localStorage.getItem("session")){
-  iniciarSesion()
-}
-</script>
 
 </body>
 </html>
