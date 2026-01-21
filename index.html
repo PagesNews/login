@@ -255,7 +255,8 @@ import {
   signInWithPopup,
   signInWithRedirect,
   getRedirectResult,
-  onAuthStateChanged
+  onAuthStateChanged,
+  signOut
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getDatabase,
@@ -448,13 +449,18 @@ document.getElementById("googleBtn").onclick = async () => {
   }
 };
 
-/* Procesar resultado del redirect (si la app vuelve aquí luego de signInWithRedirect) */
-try {
-  getRedirectResult(auth).then(async (result) => {
+/* ---------------------------------------------------------
+   NUEVO: Procesar redirect result y FORZAR signOut si NO hay login por redirect
+   Esto garantiza que al cargar la página (si no viene de un redirect de login)
+   el usuario no permanecerá autenticado y tendrá que iniciar sesión.
+   --------------------------------------------------------- */
+(async function handleRedirectAndEnforceLogin(){
+  try {
+    const result = await getRedirectResult(auth);
     if (result && result.user) {
+      // Vino de un signInWithRedirect correcto: procesamos como antes
       const user = result.user;
       try {
-        // Guardar entrada en 'registros' (ambos)
         await guardarRegistroAmbos({
           uid: user.uid || null,
           email: user.email || null,
@@ -466,15 +472,29 @@ try {
       }
       loginSection.style.display = "none";
       contenido.classList.remove("hidden");
+    } else {
+      // No hubo login por redirect: forzamos signOut para que el usuario deba iniciar sesión al entrar
+      try {
+        await signOut(auth);
+        console.log("Sesión eliminada al cargar la página para exigir login cada vez.");
+      } catch (soErr) {
+        console.error("Error al forzar signOut:", soErr);
+      }
     }
-  }).catch((err) => {
+  } catch (err) {
     console.error("Error getRedirectResult:", err);
-  });
-} catch (err) {
-  console.warn("getRedirectResult no disponible:", err);
-}
+    // En caso de error también forzamos signOut para no mantener sesión
+    try {
+      await signOut(auth);
+      console.log("Sesión eliminada tras error en getRedirectResult.");
+    } catch (soErr) {
+      console.error("Error al forzar signOut tras error:", soErr);
+    }
+  }
+})();
+/* --------------------------------------------------------- */
 
-// --- NUEVA LÓGICA: Detectar estado de autenticación y registrar visitas ---
+/* Detectar estado de autenticación y registrar visitas (se mantiene) */
 const VISIT_DEBOUNCE_TIME = 60 * 60 * 1000; // 1 hora en milisegundos
 
 onAuthStateChanged(auth, async (user) => {
