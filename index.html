@@ -2,44 +2,76 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Salud Felina | Login</title>
+<title>Salud Felina | Panleucopenia</title>
 
 <style>
-*{box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:Arial, sans-serif;
   background:#f3f7f6;
-  margin:0;
+  color:#2e3d38;
+  line-height:1.8;
 }
 header{
   background:#cfe7df;
-  padding:40px;
+  padding:50px 20px;
   text-align:center;
+}
+section{
+  max-width:1100px;
+  margin:auto;
+  padding:40px 20px;
 }
 .card{
   background:white;
-  max-width:420px;
-  margin:40px auto;
-  padding:30px;
-  border-radius:15px;
-  box-shadow:0 10px 25px rgba(0,0,0,.1);
+  padding:35px;
+  border-radius:18px;
+  margin-bottom:40px;
+  box-shadow:0 10px 25px rgba(0,0,0,.08);
 }
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:30px;
+  align-items:center;
+}
+img{
+  width:100%;
+  border-radius:15px;
+}
+h2{color:#4a7c6a;margin-bottom:15px}
 input,button{
   width:100%;
-  padding:12px;
-  margin-top:10px;
-  font-size:15px;
+  padding:14px;
+  margin-top:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
 }
 button{
   background:#6bb9a7;
-  border:none;
   color:white;
+  border:none;
   cursor:pointer;
 }
 button:hover{background:#5aa393}
-hr{margin:20px 0}
-#msg{margin-top:10px;font-size:14px}
 .hidden{display:none}
+
+.divider{
+  text-align:center;
+  margin:20px 0;
+  position:relative;
+}
+.divider::before,
+.divider::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:40%;
+  height:1px;
+  background:#ccc;
+}
+.divider::before{left:0}
+.divider::after{right:0}
 </style>
 </head>
 
@@ -47,10 +79,11 @@ hr{margin:20px 0}
 
 <header>
 <h1>Panleucopenia Felina 🐾</h1>
-<p>Acceso a información completa</p>
+<p>Información veterinaria clara para proteger a los gatos</p>
 </header>
 
-<div class="card">
+<!-- LOGIN -->
+<section id="loginSection" class="card" style="max-width:400px">
 <h2>Iniciar sesión</h2>
 
 <input id="email" type="email" placeholder="Correo electrónico">
@@ -59,20 +92,28 @@ hr{margin:20px 0}
 <button id="registerBtn">Registrarme</button>
 <button id="loginBtn">Iniciar sesión</button>
 
-<hr>
+<div class="divider">o</div>
 
 <button id="googleBtn">Continuar con Google</button>
 
-<p id="msg"></p>
-</div>
-
-<section id="contenido" class="hidden" style="max-width:900px;margin:auto">
-  <h2>Contenido protegido</h2>
-  <p>
-    Si estás viendo esto, el inicio de sesión funciona correctamente.
-  </p>
+<p id="authMsg"></p>
 </section>
 
+<!-- CONTENIDO -->
+<section id="contenido" class="hidden">
+<div class="card grid">
+<div>
+<h2>¿Qué es la Panleucopenia Felina?</h2>
+<p>
+La panleucopenia felina es una enfermedad viral grave causada por el parvovirus felino.
+Afecta principalmente a gatitos y gatos no vacunados.
+</p>
+</div>
+<img src="https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=900&q=80">
+</div>
+</section>
+
+<!-- FIREBASE -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import {
@@ -80,18 +121,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged
+  signInWithPopup
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  query,
-  where,
-  getDocs,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCdACTc1qQAFWDbkxnBnW58opthZgNytAs",
@@ -104,89 +135,40 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
 
-// ELEMENTOS
 const email = document.getElementById("email");
 const password = document.getElementById("password");
-const msg = document.getElementById("msg");
-const contenido = document.getElementById("contenido");
+const msg = document.getElementById("authMsg");
 
-// REGISTRAR
-registerBtn.onclick = async () => {
-  msg.textContent = "";
-  try {
-    // verificar si ya existe en Firestore
-    const q = query(
-      collection(db, "registros"),
-      where("email", "==", email.value)
-    );
-    const snap = await getDocs(q);
-    if (!snap.empty) {
-      msg.textContent = "Correo ya registrado, inicia sesión";
-      return;
+document.getElementById("registerBtn").onclick = async () => {
+  try{
+    await createUserWithEmailAndPassword(auth,email.value,password.value);
+    msg.textContent = "✅ Correo registrado, ahora inicia sesión";
+  }catch(e){
+    if(e.code === "auth/email-already-in-use"){
+      msg.textContent = "⚠️ Correo ya registrado, inicia sesión";
+    }else{
+      msg.textContent = e.message;
     }
-
-    const cred = await createUserWithEmailAndPassword(
-      auth,
-      email.value,
-      password.value
-    );
-
-    await addDoc(collection(db, "registros"), {
-      uid: cred.user.uid,
-      email: email.value,
-      fecha: serverTimestamp()
-    });
-
-    msg.textContent = "Correo registrado correctamente";
-  } catch (e) {
-    msg.textContent = e.message;
   }
 };
 
-// LOGIN
-loginBtn.onclick = async () => {
-  msg.textContent = "";
-  try {
-    await signInWithEmailAndPassword(auth, email.value, password.value);
-    msg.textContent = "Sesión iniciada correctamente";
-  } catch {
-    msg.textContent = "Correo no registrado, registra antes de iniciar sesión";
+document.getElementById("loginBtn").onclick = async () => {
+  try{
+    await signInWithEmailAndPassword(auth,email.value,password.value);
+    document.getElementById("loginSection").style.display="none";
+    document.getElementById("contenido").classList.remove("hidden");
+  }catch(e){
+    msg.textContent = "❌ Correo no registrado o contraseña incorrecta";
   }
 };
 
-// GOOGLE
-googleBtn.onclick = async () => {
-  try {
-    const provider = new GoogleAuthProvider();
-    const cred = await signInWithPopup(auth, provider);
-
-    // guardar solo si no existe
-    const q = query(
-      collection(db, "registros"),
-      where("email", "==", cred.user.email)
-    );
-    const snap = await getDocs(q);
-    if (snap.empty) {
-      await addDoc(collection(db, "registros"), {
-        uid: cred.user.uid,
-        email: cred.user.email,
-        fecha: serverTimestamp(),
-        proveedor: "google"
-      });
-    }
-  } catch (e) {
-    msg.textContent = e.message;
-  }
+document.getElementById("googleBtn").onclick = async () => {
+  const provider = new GoogleAuthProvider();
+  await signInWithPopup(auth,provider);
+  document.getElementById("loginSection").style.display="none";
+  document.getElementById("contenido").classList.remove("hidden");
 };
-
-// SESIÓN ACTIVA
-onAuthStateChanged(auth, user => {
-  if (user) {
-    contenido.classList.remove("hidden");
-  }
-});
 </script>
 
 </body>
