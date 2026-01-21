@@ -307,6 +307,7 @@ async function guardarRegistroRealtime(datos){
   try {
     const registrosRef = ref(dbRealtime, 'registros');
     await push(registrosRef, datos);
+    console.log("Registro guardado en Realtime Database.");
   } catch (err) {
     console.error("Error guardando en Realtime Database:", err);
   }
@@ -321,12 +322,29 @@ async function guardarRegistroFirestore(datos){
       ...datos,
       createdAt: serverTimestamp()
     });
+    console.log("Registro guardado en Firestore (colección 'registros').");
   } catch (err) {
-    console.error("Error guardando en Firestore:", err);
+    console.error("Error guardando en Firestore (colección 'registros'):", err);
   }
 }
 
-/* Escritura combinada (Realtime + Firestore) */
+/* Guardar visita en Firestore (nueva colección 'visits') */
+async function guardarVisitaFirestore(uid, email, provider){
+  try {
+    const col = collection(dbFirestore, 'visits');
+    await addDoc(col, {
+      uid: uid,
+      email: email,
+      provider: provider,
+      visitedAt: serverTimestamp()
+    });
+    console.log("Visita registrada en Firestore (colección 'visits').");
+  } catch (err) {
+    console.error("Error registrando visita en Firestore:", err);
+  }
+}
+
+/* Escritura combinada (Realtime + Firestore) para registros iniciales */
 async function guardarRegistroAmbos(datos){
   // No bloquear la UX por los writes; hacemos ambos, loggeando errores en consola
   guardarRegistroRealtime(datos);
@@ -373,7 +391,16 @@ document.getElementById("loginBtn").onclick = async () => {
     return;
   }
   try{
-    await signInWithEmailAndPassword(auth, email.value, password.value);
+    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value);
+    const user = userCredential.user;
+    // --- MODIFICACIÓN: Guardar registro también en el login con email/password ---
+    await guardarRegistroAmbos({
+      uid: user.uid || null,
+      email: user.email || email.value,
+      provider: "password",
+      createdAt: Date.now()
+    });
+    // --------------------------------------------------------------------------
     loginSection.style.display = "none";
     contenido.classList.remove("hidden");
     msg.textContent = "";
@@ -427,6 +454,7 @@ try {
     if (result && result.user) {
       const user = result.user;
       try {
+        // Guardar entrada en 'registros' (ambos)
         await guardarRegistroAmbos({
           uid: user.uid || null,
           email: user.email || null,
@@ -446,14 +474,32 @@ try {
   console.warn("getRedirectResult no disponible:", err);
 }
 
-/* Detectar estado de autenticación y mostrar contenido si ya autenticado */
-onAuthStateChanged(auth, (user) => {
+// --- NUEVA LÓGICA: Detectar estado de autenticación y registrar visitas ---
+const VISIT_DEBOUNCE_TIME = 60 * 60 * 1000; // 1 hora en milisegundos
+
+onAuthStateChanged(auth, async (user) => {
   if (user) {
     loginSection.style.display = "none";
     contenido.classList.remove("hidden");
+
+    // Lógica para registrar visitas con debounce
+    const lastVisitTimestamp = localStorage.getItem('lastRecordedVisit');
+    const currentTime = Date.now();
+
+    if (!lastVisitTimestamp || (currentTime - parseInt(lastVisitTimestamp, 10)) > VISIT_DEBOUNCE_TIME) {
+      // Si no hay registro o ha pasado más de 1 hora desde la última visita
+      console.log("Registrando nueva visita para usuario autenticado.");
+      await guardarVisitaFirestore(user.uid, user.email, user.providerData[0]?.providerId || "unknown");
+      localStorage.setItem('lastRecordedVisit', currentTime.toString());
+    } else {
+      console.log("Visita no registrada: Dentro del período de debounce.");
+    }
+
   } else {
     loginSection.style.display = "";
     contenido.classList.add("hidden");
+    // Limpiar el timestamp de visita cuando el usuario no está autenticado
+    localStorage.removeItem('lastRecordedVisit');
   }
 });
 </script>
