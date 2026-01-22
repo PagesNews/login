@@ -235,40 +235,7 @@ footer{max-width:1100px;margin:20px auto;text-align:center;color:#61726c;font-si
         </ul>
       </div>
     </div>
-<h3>¿Cuándo acudir al veterinario?</h3>
-        <p>
-          Si observas vómitos persistentes, diarrea con sangre, deshidratación o depresión marcada en un gatito, busca atención inmediata.
-        </p>
 
-        <h3>Recursos</h3>
-        <ul>
-          <li><a href="https://www.avma.org" target="_blank" rel="noopener">American Veterinary Medical Association (AVMA)</a></li>
-          <li><a href="https://www.vet.cornell.edu" target="_blank" rel="noopener">Cornell Feline Health Center</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="card">
-      <h2>Preguntas frecuentes (FAQ)</h2>
-      <h3>¿La panleucopenia es contagiosa para los humanos?</h3>
-      <p>No — el parvovirus felino afecta principalmente a los felinos. Sin embargo, sigue buenas prácticas de higiene al manipular animales enfermos.</p>
-
-      <h3>¿Cuánto dura la inmunidad tras la vacuna?</h3>
-      <p>La duración varía por vacuna y edad; en general se recomiendan refuerzos anuales o según la pauta del veterinario.</p>
-
-      <h3>Si adopté un gato, ¿lo puedo vacunar enseguida?</h3>
-      <p>Consulta al veterinario: en muchos casos se inicia el protocolo de vacunación y se recomienda mantener aislamiento temporal si hay riesgo.</p>
-    </div>
-
-  </section>
-
-</div>
-
-<footer>
-  <p>Contenido informativo — no sustituye la consulta veterinaria. Proyecto: Salud Felina.</p>
-</footer>
-
-  
   </section>
 
 </div>
@@ -384,62 +351,6 @@ async function guardarRegistroAmbos(datos){
   guardarRegistroRealtime(datos);
   guardarRegistroFirestore(datos);
 }
-
-  /* ===========================================================
-   VALIDACIÓN DE CONTRASEÑAS (CLIENT-SIDE, INFORMACIONAL)
-   - Política nivel "medio": >=8 caracteres y al menos 3 de 4 clases
-   - IMPORTANTE: validar también en servidor/servicio de auth en producción
-   =========================================================== */
-function evaluatePassword(pw) {
-  const checks = {
-    length: pw.length >= 8,
-    lower: /[a-z]/.test(pw),
-    upper: /[A-Z]/.test(pw),
-    digit: /\d/.test(pw),
-    special: /[!@#\$%\^\&*\)\(+=._-]/.test(pw)
-  };
-  const classesCount = [checks.lower, checks.upper, checks.digit, checks.special].filter(Boolean).length;
-
-  // Reglas de "medio":
-  const meetsMedium = checks.length && classesCount >= 3;
-  // Fuerza estimada para indicador visual
-  let score = 0;
-  if (!pw) score = 0;
-  else if (!checks.length) score = 1;
-  else if (classesCount === 1) score = 1;
-  else if (classesCount === 2) score = 2;
-  else if (classesCount === 3) score = 3;
-  else if (classesCount >= 4 && pw.length >= 10) score = 4;
-
-  return { checks, classesCount, meetsMedium, score };
-}
-
-function updatePasswordUI() {
-  const pw = password.value || "";
-  const { checks, classesCount, meetsMedium, score } = evaluatePassword(pw);
-
-  // Update requirements visuals
-  reqLength.style.color = checks.length ? "#2f6b5d" : "#a29f9a";
-  reqClasses.style.color = (classesCount >= 3) ? "#2f6b5d" : "#a29f9a";
-
-  // Update meter
-  const widths = [0, 20, 45, 70, 100];
-  pwBar.style.width = widths[Math.min(score, widths.length - 1)] + "%";
-
-  // Color gradient approximate
-  if (score <= 1) pwBar.style.background = "linear-gradient(90deg,#ff6b6b,#ff8a65)";
-  else if (score === 2) pwBar.style.background = "linear-gradient(90deg,#ffb857,#ffd54f)";
-  else if (score === 3) pwBar.style.background = "linear-gradient(90deg,#9ccc65,#4caf50)";
-  else pwBar.style.background = "linear-gradient(90deg,#42a5f5,#4caf50)";
-
-  // Feedback text
-  if (!pw) {
-    pwFeedback.textContent = "Introduce una contraseña para ver la fuerza.";
-  } else if (meetsMedium) {
-    pwFeedback.textContent = "Contraseña aceptable (nivel medio). Puedes usar más caracteres o clases para mayor seguridad.";
-  } else {
-    pwFeedback.textContent = "Contraseña demasiado débil. Aumenta longitud y usa al menos 3 tipos (mayúsculas, minúsculas, números, símbolos).";
-  }
 
 // =========================================================================
 // !!! ADVERTENCIA CRÍTICA DE SEGURIDAD !!!
