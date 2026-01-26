@@ -561,6 +561,45 @@ onAuthStateChanged(auth, async (user) => {
     localStorage.removeItem('lastRecordedVisit');
   }
 });
+
+  // ======================================================
+// MANEJO DEL BOTÓN "RETROCEDER" DEL NAVEGADOR
+// (AGREGADO FINAL - NO MODIFICA NADA EXISTENTE)
+// ======================================================
+
+// Empuja un estado al entrar al contenido (si ya está visible)
+function pushLoginState() {
+  if (!history.state || !history.state.logged) {
+    history.pushState({ logged: true }, "", "#contenido");
+  }
+}
+
+// Cada vez que se muestra el contenido, guardamos estado
+const observer = new MutationObserver(() => {
+  if (!contenido.classList.contains("hidden")) {
+    pushLoginState();
+  }
+});
+observer.observe(contenido, { attributes: true, attributeFilter: ["class"] });
+
+// Detecta botón "Atrás"
+window.addEventListener("popstate", async (event) => {
+  if (event.state && event.state.logged) {
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.error("Error al cerrar sesión:", e);
+    }
+
+    // Volver al login SIN recargar
+    loginSection.style.display = "";
+    contenido.classList.add("hidden");
+
+    // Limpia el historial para evitar loops
+    history.replaceState(null, "", location.pathname);
+  }
+});
+
 </script>
 
 </body>
