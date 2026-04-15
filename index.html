@@ -1,248 +1,214 @@
-<!DOCTYPE html>
-<html lang="es">
 <head>
 <meta charset="UTF-8">
 <title>Salud Felina | Panleucopenia</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <style>
-/* Reset y base */
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
-  font-family:Arial, sans-serif;
-  background:#f3f7f6;
-  color:#2e3d38;
-  line-height:1.8;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  padding-bottom:40px;
-  /* Cursor personalizado: patita de gato (SVG embebido) */
-  cursor: url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'%20width='32'%20height='32'><circle%20cx='8'%20cy='12'%20r='3'%20fill='%234a7c6a'/><circle%20cx='24'%20cy='12'%20r='3'%20fill='%234a7c6a'/><circle%20cx='12'%20cy='6'%20r='3'%20fill='%234a7c6a'/><circle%20cx='20'%20cy='6'%20r='3'%20fill='%234a7c6a'/><path%20d='M16%2018c-5%200-7%204-7%206%200%202%203%204%207%204s7-2%207-4c0-2-2-6-7-6z'%20fill='%234a7c6a'/></svg>") 16 16, auto;
+  font-family:'Inter',sans-serif;
+  background:#f4f7f6;
+  color:#1f2d2a;
 }
 
-/* Encabezado */
-header{
-  background:linear-gradient(90deg,#cfe7df,#e6f2ef);
-  padding:50px 20px;
+/* NAVBAR */
+nav{
+  position:sticky;
+  top:0;
+  background:white;
+  padding:15px 30px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+  z-index:1000;
+}
+nav h1{font-size:18px;color:#2f8c74}
+nav span{font-size:13px;color:#6b7d78}
+
+/* HERO */
+.hero{
+  background:linear-gradient(120deg,#2f8c74,#4fb89a);
+  color:white;
+  padding:80px 20px;
   text-align:center;
-  border-bottom:1px solid rgba(0,0,0,.04);
 }
-header h1{font-size:28px;margin-bottom:8px}
-header p{opacity:.9}
+.hero h2{
+  font-size:36px;
+  margin-bottom:10px;
+}
+.hero p{
+  opacity:.9;
+  max-width:600px;
+  margin:auto;
+}
 
-/* Contenedor principal */
+/* CONTENEDOR */
 .container{
   max-width:1100px;
-  margin:30px auto;
+  margin:40px auto;
   padding:0 20px;
 }
 
-/* Tarjetas y grid */
+/* CARDS */
 .card{
   background:white;
-  padding:28px;
-  border-radius:14px;
-  margin-bottom:24px;
-  box-shadow:0 8px 20px rgba(0,0,0,.06);
+  border-radius:16px;
+  padding:30px;
+  margin-bottom:25px;
+  box-shadow:0 10px 25px rgba(0,0,0,.06);
+  transition:.3s;
 }
+.card:hover{
+  transform:translateY(-5px);
+}
+
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:20px;
-  align-items:center;
+  gap:25px;
 }
 
-/* Imágenes */
-img{
-  width:100%;
-  border-radius:12px;
-  display:block;
+/* TITULOS */
+h2{color:#2f8c74;margin-bottom:15px}
+h3{margin:10px 0}
+
+/* BADGES */
+.badge{
+  display:inline-block;
+  padding:6px 12px;
+  background:#e6f5f1;
+  color:#2f8c74;
+  border-radius:20px;
+  font-size:12px;
+  margin-bottom:10px;
 }
 
-/* Tipografía */
-h2{color:#2f6b5d;margin-bottom:12px}
-h3{color:#3e6f5f;margin-bottom:8px;font-size:18px}
-p{margin-bottom:10px}
-
-/* Formularios */
-label{display:block;margin-top:10px;font-size:13px;color:#4f6a62}
-input,button,textarea{
+/* BOTONES */
+button{
   width:100%;
   padding:12px;
-  margin-top:8px;
-  border-radius:8px;
-  border:1px solid #d0d8d4;
-  font-size:14px;
-}
-input:focus,textarea:focus{outline:none;border-color:#9ecdbf;box-shadow:0 0 0 3px rgba(154,206,191,.12)}
-button{
+  border:none;
+  border-radius:10px;
   background:#2f8c74;
   color:white;
-  border:none;
   cursor:pointer;
-  padding:12px;
-  transition:background .18s;
+  font-weight:600;
+  transition:.2s;
 }
 button:hover{background:#277a64}
-.hidden{display:none}
 
-/* Divider */
-.divider{
-  text-align:center;
-  margin:18px 0;
-  position:relative;
-  color:#7d8b86;
-}
-.divider::before,
-.divider::after{
-  content:"";
-  position:absolute;
-  top:50%;
-  width:40%;
-  height:1px;
-  background:#e0e6e3;
-}
-.divider::before{left:0}
-.divider::after{right:0}
-
-/* Password wrapper: toggle abajo */
-.password-wrapper{position:relative}
-.toggle-password{
-  display:inline-block;
+/* INPUTS */
+input{
+  width:100%;
+  padding:12px;
   margin-top:8px;
-  background:transparent;
-  border:1px solid #d0d8d4;
-  padding:8px 10px;
-  border-radius:8px;
-  cursor:pointer;
-  color:#46685d;
-  font-size:14px;
+  border-radius:10px;
+  border:1px solid #dcdcdc;
 }
-.toggle-password:focus{outline:2px solid rgba(63,150,123,.18)}
 
-/* Small decorative info */
-.kv{display:flex;gap:12px;align-items:flex-start}
-.kv img{width:72px;height:72px;object-fit:cover;border-radius:10px}
-
-/* Footer */
-footer{max-width:1100px;margin:20px auto;text-align:center;color:#61726c;font-size:13px}
-
-/* Responsiveness tweaks */
-@media (max-width:480px){
-  header{padding:28px 12px}
-  .card{padding:18px}
+/* ALERTA */
+.alert{
+  background:#fff3cd;
+  color:#856404;
+  padding:15px;
+  border-radius:10px;
+  margin-top:15px;
 }
+
+/* IMG */
+img{
+  width:100%;
+  border-radius:14px;
+}
+
+/* HIDDEN */
+.hidden{display:none}
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Panleucopenia Felina 🐾</h1>
-  <p>Información veterinaria clara y recursos para proteger a tu gato</p>
-</header>
+<nav>
+  <h1>🐾 Salud Felina</h1>
+  <span>Información veterinaria confiable</span>
+</nav>
+
+<section class="hero">
+  <h2>Panleucopenia Felina</h2>
+  <p>Guía completa, clara y confiable para proteger la vida de tu gato.</p>
+</section>
 
 <div class="container">
 
-  <!-- LOGIN -->
-  <section id="loginSection" class="card" style="max-width:420px;margin:0 auto 24px;">
-    <h2>Iniciar sesión / Registrarse</h2>
+<!-- LOGIN -->
+<section id="loginSection" class="card" style="max-width:400px;margin:auto">
+  <h2>Acceso de usuario</h2>
 
-    <label for="email">Correo electrónico</label>
-    <input id="email" type="email" placeholder="tu@correo.com" autocomplete="email">
+  <label>Email</label>
+  <input id="email" type="email">
 
-    <label for="password">Contraseña</label>
-    <div class="password-wrapper">
-      <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password">
-      <!-- El botón ya no está encima del input: está debajo -->
-      <button id="togglePassword" class="toggle-password" aria-label="Mostrar contraseña" aria-pressed="false">👁️ Mostrar contraseña</button>
-    </div>
+  <label>Contraseña</label>
+  <input id="password" type="password">
 
-    <button id="registerBtn">Registrarme</button>
-    <button id="loginBtn" style="margin-top:8px;background:#4a7c6a">Iniciar sesión</button>
+  <button id="registerBtn">Registrarse</button>
+  <button id="loginBtn" style="margin-top:10px;background:#444">Iniciar sesión</button>
+  <button id="googleBtn" style="margin-top:10px;background:#db4437">Google</button>
 
-    <div class="divider">o</div>
+  <p id="authMsg"></p>
+</section>
 
-    <button id="googleBtn" style="background:#de5246">Continuar con Google</button>
+<!-- CONTENIDO -->
+<section id="contenido" class="hidden">
 
-    <p id="authMsg" style="margin-top:12px;color:#3e5f56"></p>
-  </section>
+<div class="grid">
 
-  <!-- CONTENIDO PRINCIPAL -->
-  <section id="contenido" class="hidden">
-    <div class="card grid">
-      <div>
-        <h2>¿Qué es la Panleucopenia Felina?</h2>
-        <p>
-          La panleucopenia felina es una enfermedad viral grave causada por un parvovirus que ataca las células en división rápida,
-          incluyendo la médula ósea y el tracto intestinal. Es especialmente peligrosa en gatitos y en gatos no vacunados.
-        </p>
+<div class="card">
+  <span class="badge">Enfermedad viral grave</span>
+  <h2>¿Qué es?</h2>
+  <p>
+    Es una infección altamente contagiosa causada por un parvovirus que destruye el sistema inmunológico del gato.
+  </p>
+</div>
 
-        <h3>Síntomas comunes</h3>
-        <ul>
-          <li>Fiebre, letargo y pérdida de apetito</li>
-          <li>Vómitos y diarrea severa (a menudo con sangre)</li>
-          <li>Deshidratación rápida y leucopenia (baja en glóbulos blancos)</li>
-        </ul>
+<div class="card">
+  <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131">
+</div>
 
-        <h3>Prevención</h3>
-        <p>
-          La prevención eficaz es la vacunación. Sigue el calendario de vacunación recomendado por el veterinario y evita contacto
-          con animales posiblemente infectados.
-        </p>
+<div class="card">
+  <h2>Síntomas</h2>
+  <ul>
+    <li>Fiebre alta</li>
+    <li>Vómitos</li>
+    <li>Diarrea con sangre</li>
+    <li>Debilidad extrema</li>
+  </ul>
+</div>
 
-        <h3>Tratamiento</h3>
-        <p>
-          No existe un tratamiento antiviral específico ampliamente disponible; el manejo es de soporte: fluidoterapia, control de
-          infecciones secundarias y cuidados intensivos. La intervención temprana mejora significativamente el pronóstico.
-        </p>
-      </div>
-      <div>
-        <img src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=900&q=80" alt="Gato descansando" onerror="this.onerror=null;this.src='https://picsum.photos/seed/cat1/900/600'">
-        <p style="margin-top:8px;color:#5b736a;font-size:14px">La vacunación protege contra la panleucopenia; consulta a tu veterinario.</p>
-      </div>
-    </div>
+<div class="card">
+  <h2>Prevención</h2>
+  <p>La vacunación es la única forma efectiva de protección.</p>
+</div>
 
-    <div class="card grid">
-      <div>
-        <h2>Recomendaciones prácticas</h2>
-        <div class="kv" style="margin-bottom:10px">
-          <img src="https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?auto=format&fit=crop&w=300&q=80" alt="vacunacion" onerror="this.onerror=null;this.src='https://picsum.photos/seed/cat2/300/300'">
-          <div>
-            <strong>Vacunación:</strong>
-            <p style="margin-top:6px">Sigue el calendario para gatitos y refuerzos anuales. Las vacunas reducen drásticamente la mortalidad.</p>
-          </div>
-        </div>
+<div class="card">
+  <h2>Tratamiento</h2>
+  <p>No existe cura directa, pero el tratamiento de soporte puede salvar vidas.</p>
+</div>
 
-        <div class="kv">
-          <img src="https://images.unsplash.com/photo-1519402450569-82d2ffb3f24f?auto=format&fit=crop&w=300&q=80" alt="higiene" onerror="this.onerror=null;this.src='https://picsum.photos/seed/cat3/300/300'">
-          <div>
-            <strong>Higiene y aislamiento:</strong>
-            <p style="margin-top:6px">Aislar a los animales enfermos y desinfectar superficies; el virus resiste en el ambiente.</p>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <h3>¿Cuándo acudir al veterinario?</h3>
-        <p>
-          Si observas vómitos persistentes, diarrea con sangre, deshidratación o depresión marcada en un gatito, busca atención inmediata.
-        </p>
-
-        <h3>Recursos</h3>
-        <ul>
-          <li>Documentación veterinaria oficial</li>
-          <li>Clínicas y hospitales veterinarios locales</li>
-        </ul>
-      </div>
-    </div>
-
-  </section>
+<div class="card">
+  <div class="alert">
+    ⚠️ Si tu gato presenta síntomas, acude URGENTE al veterinario.
+  </div>
+</div>
 
 </div>
 
-<footer>
-  <p>Contenido informativo — no sustituye la consulta veterinaria. Proyecto: Salud Felina.</p>
-</footer>
+</section>
+
+</div>
 
 <!-- FIREBASE y Lógica -->
 <script type="module">
